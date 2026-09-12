@@ -8,9 +8,11 @@
   <!-- ✅ CSS MODULAR (Struktur Baru Fase 4) -->
   <link rel="stylesheet" href="css/core/variables.css">
   <link rel="stylesheet" href="css/core/reset.css">
-  <link rel="stylesheet" href="css/layouts/main-layout.css">
+  <link rel="stylesheet" href="css/layout/main-layout.css">
   <link rel="stylesheet" href="css/components/ui-components.css">
   <link rel="stylesheet" href="css/components/animations.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/form.css">
   <link rel="stylesheet" href="css/modal.css">
   
   <style>
@@ -32,7 +34,7 @@
     <a href="visi-misi.html" class="sidebar-link"><span></span> Visi & Misi Sekolah</a>
     <a href="personil.html" class="sidebar-link"><span></span> Personil</a>
     <a href="rubrik-info.html" class="sidebar-link"><span></span> Rubrik Info</a>
-    <a href="layanan.html" class="sidebar-link"><span>🛠️</span> Kombel SAHABAT BERIMAN</a>
+    <a href="layanan.html" class="sidebar-link"><span>️</span> Kombel SAHABAT BERIMAN</a>
      <a href="bel-sekolah.html" class="sidebar-link"><span></span> bel sekolah</a>
   </div>
 
@@ -61,7 +63,7 @@
 
         <div class="form-group">
           <div class="captcha-box">
-            <span class="form-icon">🛡️</span>
+            <span class="form-icon">️</span>
             <input type="text" id="captchaInput" class="form-control" placeholder="Captcha" style="flex: 1;" required>
             <div class="captcha-image" id="captcha">...</div>
             <button type="button" class="refresh-captcha" id="btnRefreshCaptcha">🔄</button>
@@ -83,7 +85,7 @@
     </div>
 
     <div class="promo-banner">
-      <div class="promo-title">🎮 SELAMAT DATANG! 🎮</div>
+      <div class="promo-title">🎮 SELAMAT DATANG! </div>
       <div class="promo-subtitle">MARI PENUHI<br>LAKUKAN<br>YANG BEDA DARI BIASANYA</div>
       <div style="background: #FFD700; color: #000; padding: 8px 20px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">MUDAH SEGALANYA!</div>
       <a href="#" class="promo-cta">SILAHKAN COBA →</a>
@@ -94,7 +96,7 @@
       <div class="social-icons">
         <a href="#" class="social-icon instagram">📷</a>
         <a href="#" class="social-icon facebook">f</a>
-        <a href="#" class="social-icon telegram">✈️</a>
+        <a href="#" class="social-icon telegram">️</a>
         <a href="#" class="social-icon twitter"></a>
         <a href="#" class="social-icon youtube">▶️</a>
         <a href="#" class="social-icon whatsapp">💬</a>
@@ -103,7 +105,7 @@
   </div>
 
   <nav class="bottom-nav">
-    <a href="#" class="nav-item active"><span class="nav-icon">🏠</span><span class="nav-label">BERANDA</span></a>
+    <a href="#" class="nav-item active"><span class="nav-icon"></span><span class="nav-label">BERANDA</span></a>
     <a href="#" class="nav-item" id="navDaftar"><span class="nav-icon">✍️</span><span class="nav-label">DAFTAR</span></a>
     <a href="#" class="nav-item" id="navEksplor"><span class="nav-icon">🎁</span><span class="nav-label">EKSPLOR</span></a>
     <a href="#" class="nav-item" id="navLiveChat" onclick="window.liveChatToggle(); return false;"><span class="nav-icon">💬</span><span class="nav-label">LIVECHAT</span></a>
@@ -181,10 +183,6 @@
   <script type="module" src="js/auth-login.js"></script>
 
   <!-- ✅ LIVE CHAT -->
-  <!-- Halaman ini sudah punya trigger sendiri (tab LIVECHAT di bottom nav),
-       jadi floating button bawaan live-chat.js disembunyikan supaya tidak
-       ada 2 tombol chat tumpang tindih. Flag ini HARUS di-set sebelum
-       script live-chat.js dimuat. -->
   <script>window.LIVECHAT_HIDE_FAB = true;</script>
   <script type="module" src="js/live-chat/live-chat.js"></script>
 
@@ -195,24 +193,16 @@
     import { Sidebar } from './js/components/sidebar.js';
     import { initNavActiveState } from './js/components/nav-active-state.js';
     import { Captcha } from './js/components/captcha.js';
-    import { ForgotPasswordHandler } from './js/auth-forgot-password.js'; // ✅ IMPORT BARU
+    import { ForgotPasswordHandler } from './js/auth-forgot-password.js';
 
-    // 1. Buat Captcha HANYA SATU KALI (instance tunggal)
     const captchaManager = new Captcha();
     
-    // 2. Event Listener Tombol Refresh
     const btnRefresh = document.getElementById('btnRefreshCaptcha');
     if (btnRefresh) btnRefresh.addEventListener('click', () => captchaManager.refresh());
 
-    // ✅ CATATAN: Event listener "Lupa Password" (alert) dihapus karena sekarang 
-    // ditangani sepenuhnya oleh class ForgotPasswordHandler yang mandiri.
-
-    // 3. Inisialisasi Modul Utama
     document.addEventListener('DOMContentLoaded', () => {
-      // Generate captcha pertama kali
       captchaManager.generate();
       
-      // ✅ PERBAIKAN: Kirim 'captchaManager' ke LoginController
       const loginCtrl = new LoginController(captchaManager);
       loginCtrl.init();
       
@@ -220,7 +210,6 @@
       new Sidebar().init();
       initNavActiveState();
       
-      // ✅ INISIALISASI FITUR LUPA PASSWORD YANG MANDIRI
       new ForgotPasswordHandler(); 
     });
   </script>
@@ -254,9 +243,6 @@
       btnCancelDaftar?.addEventListener('click', closeDaftar);
       modalDaftar?.addEventListener('click', function(e) { if (e.target === modalDaftar) closeDaftar(); });
 
-      // ✅ LIVE CHAT: sambungkan tab LIVECHAT di bottom nav ke widget chat
-      // yang dibuat oleh js/live-chat/live-chat.js. window.liveChatToggle
-      // sudah menangani sendiri kasus "belum login" (akan munculkan alert).
       const navLiveChat = document.getElementById('navLiveChat');
       navLiveChat?.addEventListener('click', function(e) {
         e.preventDefault();
