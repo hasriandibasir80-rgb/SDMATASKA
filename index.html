@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>SDN 139LAMANDA - sdn139 LAMANDA</title>
   
-  <!-- ✅ CSS MODULAR (login.css & form.css dihapus karena konflik dengan design system) -->
+  <!-- ✅ CSS MODULAR (Struktur Baru Fase 4) -->
   <link rel="stylesheet" href="css/core/variables.css">
   <link rel="stylesheet" href="css/core/reset.css">
-  <link rel="stylesheet" href="css/layout/main-layout.css">
+  <link rel="stylesheet" href="css/layouts/main-layout.css">
   <link rel="stylesheet" href="css/components/ui-components.css">
   <link rel="stylesheet" href="css/components/animations.css">
   <link rel="stylesheet" href="css/modal.css">
@@ -32,8 +33,8 @@
     <a href="visi-misi.html" class="sidebar-link"><span></span> Visi & Misi Sekolah</a>
     <a href="personil.html" class="sidebar-link"><span></span> Personil</a>
     <a href="rubrik-info.html" class="sidebar-link"><span></span> Rubrik Info</a>
-    <a href="layanan.html" class="sidebar-link"><span>️</span> Kombel SAHABAT BERIMAN</a>
-    <a href="bel-sekolah.html" class="sidebar-link"><span></span> bel sekolah</a>
+    <a href="layanan.html" class="sidebar-link"><span>🛠️</span> Kombel SAHABAT BERIMAN</a>
+     <a href="bel-sekolah.html" class="sidebar-link"><span></span> bel sekolah</a>
   </div>
 
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -55,13 +56,13 @@
         </div>
 
         <div class="form-group">
-          <span class="form-icon"></span>
+          <span class="form-icon">🔒</span>
           <input type="password" id="password" class="form-control" placeholder="Password" required>
         </div>
 
         <div class="form-group">
           <div class="captcha-box">
-            <span class="form-icon">️</span>
+            <span class="form-icon">🛡️</span>
             <input type="text" id="captchaInput" class="form-control" placeholder="Captcha" style="flex: 1;" required>
             <div class="captcha-image" id="captcha">...</div>
             <button type="button" class="refresh-captcha" id="btnRefreshCaptcha">🔄</button>
@@ -83,7 +84,7 @@
     </div>
 
     <div class="promo-banner">
-      <div class="promo-title">🎮 SELAMAT DATANG! </div>
+      <div class="promo-title">🎮 SELAMAT DATANG! 🎮</div>
       <div class="promo-subtitle">MARI PENUHI<br>LAKUKAN<br>YANG BEDA DARI BIASANYA</div>
       <div style="background: #FFD700; color: #000; padding: 8px 20px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">MUDAH SEGALANYA!</div>
       <a href="#" class="promo-cta">SILAHKAN COBA →</a>
@@ -125,7 +126,7 @@
           <div class="feature-item"><div class="feature-icon-wrap arsip"></div><div class="feature-text"><strong>Dokumen Arsip</strong><p>Penyimpanan dokumen penting.</p></div></div>
           <div class="feature-item"><div class="feature-icon-wrap statistik">📊</div><div class="feature-text"><strong>Data Statistik</strong><p>Visualisasi data real-time.</p></div></div>
           <div class="feature-item"><div class="feature-icon-wrap admin">📚</div><div class="feature-text"><strong>Administrasi Pembelajaran</strong><p>Modul ajar, penilaian, jadwal.</p></div></div>
-          <div class="feature-item"><div class="feature-icon-wrap kolab"></div><div class="feature-text"><strong>Kolaborasi</strong><p>Ruang diskusi antar pendidik.</p></div></div>
+          <div class="feature-item"><div class="feature-icon-wrap kolab">🤝</div><div class="feature-text"><strong>Kolaborasi</strong><p>Ruang diskusi antar pendidik.</p></div></div>
           <div class="feature-item"><div class="feature-icon-wrap monitor">👁️</div><div class="feature-text"><strong>Monitoring</strong><p>Pantau progres pembelajaran.</p></div></div>
         </div>
       </div>
@@ -151,7 +152,7 @@
     </div>
   </div>
 
-  <!-- MODAL LUPA PASSWORD -->
+  <!-- ✅ MODAL LUPA PASSWORD (BARU - MANDIRI) -->
   <div id="modalLupaPassword" class="modal-overlay-base">
     <div class="modal-daftar-content" style="max-width: 400px;">
       <button class="modal-daftar-close" id="btnCloseLupaPassword" aria-label="Tutup">&times;</button>
@@ -176,30 +177,43 @@
 
   <div class="loading" id="loading"><div class="spinner"></div></div>
 
-  <!-- ✅ FIREBASE & AUTH (di-comment sementara sampai file dibuat) -->
-  <!--
+  <!-- ✅ FIREBASE & AUTH -->
   <script type="module" src="js/firebase-config.js"></script>
   <script type="module" src="js/auth-login.js"></script>
-  <script type="module" src="js/live-chat/live-chat.js"></script>
-  -->
 
-  <!-- ✅ MODULAR SCRIPTS -->
+  <!-- ✅ LIVE CHAT -->
+  <!-- Halaman ini sudah punya trigger sendiri (tab LIVECHAT di bottom nav),
+       jadi floating button bawaan live-chat.js disembunyikan supaya tidak
+       ada 2 tombol chat tumpang tindih. Flag ini HARUS di-set sebelum
+       script live-chat.js dimuat. -->
+  <script>window.LIVECHAT_HIDE_FAB = true;</script>
+  <script type="module" src="js/live-chat/live-chat.js"></script>
+
+  <!-- ✅ MODULAR SCRIPTS (DIPERBAIKI) -->
   <script type="module">
     import { LoginController } from './js/controllers/login-controller.js';
     import { AnnouncementRotator } from './js/components/announcement-rotator.js';
     import { Sidebar } from './js/components/sidebar.js';
     import { initNavActiveState } from './js/components/nav-active-state.js';
     import { Captcha } from './js/components/captcha.js';
-    import { ForgotPasswordHandler } from './js/auth-forgot-password.js';
+    import { ForgotPasswordHandler } from './js/auth-forgot-password.js'; // ✅ IMPORT BARU
 
+    // 1. Buat Captcha HANYA SATU KALI (instance tunggal)
     const captchaManager = new Captcha();
     
+    // 2. Event Listener Tombol Refresh
     const btnRefresh = document.getElementById('btnRefreshCaptcha');
     if (btnRefresh) btnRefresh.addEventListener('click', () => captchaManager.refresh());
 
+    // ✅ CATATAN: Event listener "Lupa Password" (alert) dihapus karena sekarang 
+    // ditangani sepenuhnya oleh class ForgotPasswordHandler yang mandiri.
+
+    // 3. Inisialisasi Modul Utama
     document.addEventListener('DOMContentLoaded', () => {
+      // Generate captcha pertama kali
       captchaManager.generate();
       
+      // ✅ PERBAIKAN: Kirim 'captchaManager' ke LoginController
       const loginCtrl = new LoginController(captchaManager);
       loginCtrl.init();
       
@@ -207,11 +221,12 @@
       new Sidebar().init();
       initNavActiveState();
       
+      // ✅ INISIALISASI FITUR LUPA PASSWORD YANG MANDIRI
       new ForgotPasswordHandler(); 
     });
   </script>
 
-  <!-- ✅ MODAL HANDLERS -->
+  <!-- ✅ MODAL HANDLERS (Eksplor & Daftar) -->
   <script>
     (function() {
       const modalEksplor = document.getElementById('modalEksplor');
@@ -240,6 +255,9 @@
       btnCancelDaftar?.addEventListener('click', closeDaftar);
       modalDaftar?.addEventListener('click', function(e) { if (e.target === modalDaftar) closeDaftar(); });
 
+      // ✅ LIVE CHAT: sambungkan tab LIVECHAT di bottom nav ke widget chat
+      // yang dibuat oleh js/live-chat/live-chat.js. window.liveChatToggle
+      // sudah menangani sendiri kasus "belum login" (akan munculkan alert).
       const navLiveChat = document.getElementById('navLiveChat');
       navLiveChat?.addEventListener('click', function(e) {
         e.preventDefault();
