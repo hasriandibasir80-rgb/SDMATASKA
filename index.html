@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>SDN 139 LAMANDA - Portal Resmi</title>
+  <title>SDN 139LAMANDA - sdn139 LAMANDA</title>
   
-  <!-- CSS Modular -->
+  <!-- ✅ CSS MODULAR (login.css & form.css dihapus karena konflik dengan design system) -->
   <link rel="stylesheet" href="css/core/variables.css">
   <link rel="stylesheet" href="css/core/reset.css">
-  <link rel="stylesheet" href="css/layouts/main-layout.css">
+  <link rel="stylesheet" href="css/layout/main-layout.css">
   <link rel="stylesheet" href="css/components/ui-components.css">
   <link rel="stylesheet" href="css/components/animations.css">
   <link rel="stylesheet" href="css/modal.css">
@@ -26,29 +26,25 @@
   </style>
 </head>
 <body>
-
-  <!-- Sidebar Navigasi -->
-  <aside class="sidebar" id="sidebar">
-    <button class="close-btn" id="closeSidebar" aria-label="Tutup Menu">✕</button>
+  <div class="sidebar" id="sidebar">
+    <button class="close-btn" id="closeSidebar">✕</button>
     <div style="padding: 20px 25px; font-size: 18px; font-weight: bold; border-bottom: 2px solid #FFD700; margin-bottom: 10px;">🏫 TENTANG KAMI</div>
-    <a href="visi-misi.html" class="sidebar-link"><span>🎯</span> Visi & Misi Sekolah</a>
-    <a href="personil.html" class="sidebar-link"><span>👥</span> Personil</a>
-    <a href="rubrik-info.html" class="sidebar-link"><span>📰</span> Rubrik Info</a>
-    <a href="layanan.html" class="sidebar-link"><span>🛠️</span> Kombel SAHABAT BERIMAN</a>
-    <a href="bel-sekolah.html" class="sidebar-link"><span>🔔</span> Bel Sekolah</a>
-  </aside>
+    <a href="visi-misi.html" class="sidebar-link"><span></span> Visi & Misi Sekolah</a>
+    <a href="personil.html" class="sidebar-link"><span></span> Personil</a>
+    <a href="rubrik-info.html" class="sidebar-link"><span></span> Rubrik Info</a>
+    <a href="layanan.html" class="sidebar-link"><span>️</span> Kombel SAHABAT BERIMAN</a>
+    <a href="bel-sekolah.html" class="sidebar-link"><span></span> bel sekolah</a>
+  </div>
 
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <!-- Header -->
   <header class="header">
-    <button class="menu-btn" id="menuBtn" aria-label="Buka Menu">☰</button>
+    <button class="menu-btn" id="menuBtn">☰</button>
     <div class="logo-text">SALAM <span> D MATASKA</span></div>
     <div style="width: 50px;"></div>
   </header>
 
-  <!-- Konten Utama -->
-  <main class="container">
+  <div class="container">
     <h1 class="page-title">Login Untuk Masuk</h1>
 
     <div class="login-box">
@@ -59,16 +55,16 @@
         </div>
 
         <div class="form-group">
-          <span class="form-icon">🔒</span>
+          <span class="form-icon"></span>
           <input type="password" id="password" class="form-control" placeholder="Password" required>
         </div>
 
         <div class="form-group">
           <div class="captcha-box">
-            <span class="form-icon">🛡️</span>
+            <span class="form-icon">️</span>
             <input type="text" id="captchaInput" class="form-control" placeholder="Captcha" style="flex: 1;" required>
             <div class="captcha-image" id="captcha">...</div>
-            <button type="button" class="refresh-captcha" id="btnRefreshCaptcha" aria-label="Refresh Captcha">🔄</button>
+            <button type="button" class="refresh-captcha" id="btnRefreshCaptcha">🔄</button>
           </div>
         </div>
 
@@ -86,34 +82,31 @@
       </div>
     </div>
 
-    <!-- Promo Banner -->
     <div class="promo-banner">
-      <div class="promo-title">🎮 SELAMAT DATANG! 🎮</div>
+      <div class="promo-title">🎮 SELAMAT DATANG! </div>
       <div class="promo-subtitle">MARI PENUHI<br>LAKUKAN<br>YANG BEDA DARI BIASANYA</div>
       <div style="background: #FFD700; color: #000; padding: 8px 20px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">MUDAH SEGALANYA!</div>
       <a href="#" class="promo-cta">SILAHKAN COBA →</a>
     </div>
 
-    <!-- Sosial Media -->
     <div class="social-section">
       <div class="social-title">Follow Sosmed Kami Juga :</div>
       <div class="social-icons">
-        <a href="#" class="social-icon instagram" title="Instagram">📷</a>
-        <a href="#" class="social-icon facebook" title="Facebook">f</a>
-        <a href="#" class="social-icon telegram" title="Telegram">✈️</a>
-        <a href="#" class="social-icon twitter" title="Twitter">🐦</a>
-        <a href="#" class="social-icon youtube" title="YouTube">▶️</a>
-        <a href="#" class="social-icon whatsapp" title="WhatsApp">💬</a>
+        <a href="#" class="social-icon instagram">📷</a>
+        <a href="#" class="social-icon facebook">f</a>
+        <a href="#" class="social-icon telegram">✈️</a>
+        <a href="#" class="social-icon twitter"></a>
+        <a href="#" class="social-icon youtube">▶️</a>
+        <a href="#" class="social-icon whatsapp">💬</a>
       </div>
     </div>
-  </main>
+  </div>
 
-  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
     <a href="#" class="nav-item active"><span class="nav-icon">🏠</span><span class="nav-label">BERANDA</span></a>
     <a href="#" class="nav-item" id="navDaftar"><span class="nav-icon">✍️</span><span class="nav-label">DAFTAR</span></a>
     <a href="#" class="nav-item" id="navEksplor"><span class="nav-icon">🎁</span><span class="nav-label">EKSPLOR</span></a>
-    <a href="#" class="nav-item" id="navLiveChat"><span class="nav-icon">💬</span><span class="nav-label">LIVECHAT</span></a>
+    <a href="#" class="nav-item" id="navLiveChat" onclick="window.liveChatToggle(); return false;"><span class="nav-icon">💬</span><span class="nav-label">LIVECHAT</span></a>
   </nav>
 
   <!-- Modal Eksplor -->
@@ -121,18 +114,18 @@
     <div class="modal-eksplor-content">
       <button class="modal-eksplor-close" id="btnCloseModal" aria-label="Tutup">&times;</button>
       <div class="modal-eksplor-header">
-        <div class="modal-eksplor-icon">💡</div>
+        <div class="modal-eksplor-icon">️</div>
         <h2>Eksplorasi Dashboard</h2>
         <p>Selamat datang di Sistem Manajemen SDN 139 LAMANDA.</p>
       </div>
       <div class="modal-eksplor-body">
         <h3 class="modal-section-title"> 6 Fitur Global Utama</h3>
         <div class="feature-grid">
-          <div class="feature-item"><div class="feature-icon-wrap portal">🌐</div><div class="feature-text"><strong>Layanan Portal</strong><p>Akses cepat ke SIAGA Pendis, SIMPKB.</p></div></div>
-          <div class="feature-item"><div class="feature-icon-wrap arsip">📁</div><div class="feature-text"><strong>Dokumen Arsip</strong><p>Penyimpanan dokumen penting.</p></div></div>
+          <div class="feature-item"><div class="feature-icon-wrap portal"></div><div class="feature-text"><strong>Layanan Portal</strong><p>Akses cepat ke SIAGA Pendis, SIMPKB.</p></div></div>
+          <div class="feature-item"><div class="feature-icon-wrap arsip"></div><div class="feature-text"><strong>Dokumen Arsip</strong><p>Penyimpanan dokumen penting.</p></div></div>
           <div class="feature-item"><div class="feature-icon-wrap statistik">📊</div><div class="feature-text"><strong>Data Statistik</strong><p>Visualisasi data real-time.</p></div></div>
           <div class="feature-item"><div class="feature-icon-wrap admin">📚</div><div class="feature-text"><strong>Administrasi Pembelajaran</strong><p>Modul ajar, penilaian, jadwal.</p></div></div>
-          <div class="feature-item"><div class="feature-icon-wrap kolab">🤝</div><div class="feature-text"><strong>Kolaborasi</strong><p>Ruang diskusi antar pendidik.</p></div></div>
+          <div class="feature-item"><div class="feature-icon-wrap kolab"></div><div class="feature-text"><strong>Kolaborasi</strong><p>Ruang diskusi antar pendidik.</p></div></div>
           <div class="feature-item"><div class="feature-icon-wrap monitor">👁️</div><div class="feature-text"><strong>Monitoring</strong><p>Pantau progres pembelajaran.</p></div></div>
         </div>
       </div>
@@ -151,14 +144,14 @@
         <h2>Pilih Jenis Pendaftaran</h2>
       </div>
       <div class="modal-daftar-body">
-        <a href="daftar-member.html" class="choice-card"><div class="choice-icon member">👤</div><div class="choice-text"><h3>Member Dashboard</h3><p>Untuk Guru, Staf, atau Admin.</p></div><div class="choice-arrow">→</div></a>
-        <a href="daftar-ppdb.html" class="choice-card"><div class="choice-icon ppdb">🎓</div><div class="choice-text"><h3>Peserta Didik Baru</h3><p>Untuk calon siswa baru (PPDB).</p></div><div class="choice-arrow">→</div></a>
+        <a href="daftar-member.html" class="choice-card"><div class="choice-icon member"></div><div class="choice-text"><h3>Member Dashboard</h3><p>Untuk Guru, Staf, atau Admin.</p></div><div class="choice-arrow">→</div></a>
+        <a href="daftar-ppdb.html" class="choice-card"><div class="choice-icon ppdb"></div><div class="choice-text"><h3>Peserta Didik Baru</h3><p>Untuk calon siswa baru (PPDB).</p></div><div class="choice-arrow">→</div></a>
       </div>
       <div class="modal-daftar-footer"><button class="btn-modal-secondary" id="btnCancelDaftar">Batal</button></div>
     </div>
   </div>
 
-  <!-- Modal Lupa Password -->
+  <!-- MODAL LUPA PASSWORD -->
   <div id="modalLupaPassword" class="modal-overlay-base">
     <div class="modal-daftar-content" style="max-width: 400px;">
       <button class="modal-daftar-close" id="btnCloseLupaPassword" aria-label="Tutup">&times;</button>
@@ -183,13 +176,14 @@
 
   <div class="loading" id="loading"><div class="spinner"></div></div>
 
-  <!-- Firebase & Scripts -->
+  <!-- ✅ FIREBASE & AUTH (di-comment sementara sampai file dibuat) -->
+  <!--
   <script type="module" src="js/firebase-config.js"></script>
   <script type="module" src="js/auth-login.js"></script>
-
-  <script>window.LIVECHAT_HIDE_FAB = true;</script>
   <script type="module" src="js/live-chat/live-chat.js"></script>
+  -->
 
+  <!-- ✅ MODULAR SCRIPTS -->
   <script type="module">
     import { LoginController } from './js/controllers/login-controller.js';
     import { AnnouncementRotator } from './js/components/announcement-rotator.js';
@@ -217,7 +211,7 @@
     });
   </script>
 
-  <!-- Modal Handlers -->
+  <!-- ✅ MODAL HANDLERS -->
   <script>
     (function() {
       const modalEksplor = document.getElementById('modalEksplor');
