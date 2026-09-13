@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SDmataska - Login</title>
+  <title>SDN 139 LAMANDA - Login</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -30,7 +30,7 @@
       <a href="personil.html" class="nav-link">👥 Personil</a>
       <a href="rubrik-info.html" class="nav-link">📰 Rubrik Info</a>
       <a href="layanan.html" class="nav-link">🛠️ Kombel SAHABAT BERIMAN</a>
-      <a href="bel-sekolah.html" class="nav-link"> Bel Sekolah</a>
+      <a href="bel-sekolah.html" class="nav-link">🔔 Bel Sekolah</a>
     </nav>
   </aside>
 
@@ -45,7 +45,7 @@
       
       <form id="loginForm" class="login-form">
         <div class="form-group">
-          <span class="input-icon">👤</span>
+          <span class="input-icon"></span>
           <input type="email" id="email" class="form-input" placeholder="Alamat Email" required>
         </div>
 
@@ -59,7 +59,7 @@
             <span class="input-icon">🛡️</span>
             <input type="text" id="captchaInput" class="form-input" placeholder="Captcha" required>
             <div class="captcha-code" id="captchaCode"></div>
-            <button type="button" class="refresh-captcha" id="refreshCaptcha"></button>
+            <button type="button" class="refresh-captcha" id="refreshCaptcha">🔄</button>
           </div>
         </div>
 
@@ -68,12 +68,6 @@
           <button type="submit" class="btn btn-primary">Sign In</button>
         </div>
       </form>
-    </div>
-
-    <!-- Info Berjalan -->
-    <div class="info-box" id="infoBox">
-      <div class="info-title" id="infoTitle"></div>
-      <div class="info-content" id="infoContent"></div>
     </div>
 
     <!-- Promo Banner -->
@@ -100,7 +94,7 @@
       <div class="social-icons">
         <a href="#" class="social-icon instagram">📷</a>
         <a href="#" class="social-icon facebook">f</a>
-        <a href="#" class="social-icon telegram">️</a>
+        <a href="#" class="social-icon telegram">✈️</a>
         <a href="#" class="social-icon twitter">𝕏</a>
         <a href="#" class="social-icon youtube">▶️</a>
         <a href="#" class="social-icon whatsapp">💬</a>
@@ -115,11 +109,11 @@
       <span class="nav-label">BERANDA</span>
     </a>
     <a href="#" class="nav-item" id="navDaftar">
-      <span class="nav-icon">️</span>
+      <span class="nav-icon">✍️</span>
       <span class="nav-label">DAFTAR</span>
     </a>
     <a href="#" class="nav-item" id="navEksplor">
-      <span class="nav-icon">🎁</span>
+      <span class="nav-icon"></span>
       <span class="nav-label">EKSPLOR</span>
     </a>
     <a href="#" class="nav-item" id="navLiveChat">
@@ -133,7 +127,7 @@
     <div class="modal-content modal-large">
       <button class="modal-close" id="closeModalEksplor">&times;</button>
       <div class="modal-header">
-        <div class="modal-icon"></div>
+        <div class="modal-icon">🎁</div>
         <h2>Eksplorasi Dashboard</h2>
         <p>Selamat datang di Sistem Manajemen SDN 139 LAMANDA</p>
       </div>
@@ -169,7 +163,7 @@
             </div>
           </div>
           <div class="feature-item">
-            <div class="feature-icon kolab">🤝</div>
+            <div class="feature-icon kolab"></div>
             <div class="feature-text">
               <h4>Kolaborasi</h4>
               <p>Ruang diskusi antar pendidik</p>
@@ -227,13 +221,13 @@
     <div class="modal-content modal-small">
       <button class="modal-close" id="closeModalLupaPassword">&times;</button>
       <div class="modal-header">
-        <div class="modal-icon">🔒</div>
+        <div class="modal-icon"></div>
         <h2>Lupa Password?</h2>
         <p>Masukkan email Anda. Kami akan mengirimkan tautan untuk mengatur ulang password.</p>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <span class="input-icon">📧</span>
+          <span class="input-icon"></span>
           <input type="email" id="resetEmail" class="form-input" placeholder="Alamat Email Terdaftar" required>
         </div>
         <div class="message-box" id="lupaPasswordMessage"></div>
