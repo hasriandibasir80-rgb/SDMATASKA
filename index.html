@@ -4,25 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SDN 139 LAMANDA - Login</title>
-  <link rel="stylesheet" href="css/style.css">
+  
+  <link rel="stylesheet" href="css/core/variables.css">
+  <link rel="stylesheet" href="css/core/reset.css">
+  <link rel="stylesheet" href="css/layout/page-layout.css">
+  <link rel="stylesheet" href="css/layout/header.css">
+  <link rel="stylesheet" href="css/layout/sidebar.css">
+  <link rel="stylesheet" href="css/layout/bottom-nav.css">
+  <link rel="stylesheet" href="css/components/buttons.css">
+  <link rel="stylesheet" href="css/components/forms.css">
+  <link rel="stylesheet" href="css/components/modals.css">
+  <link rel="stylesheet" href="css/components/cards.css">
+  <link rel="stylesheet" href="css/pages/login.css">
 </head>
 <body>
-  <!-- Header -->
   <header class="header">
     <button class="menu-toggle" id="menuToggle">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
     <div class="logo">
       <h1>SALAM <span>D MATASKA</span></h1>
     </div>
   </header>
 
-  <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <h3>🏫 TENTANG KAMI</h3>
+      <h3> TENTANG KAMI</h3>
       <button class="close-sidebar" id="closeSidebar">&times;</button>
     </div>
     <nav class="sidebar-nav">
@@ -34,26 +41,20 @@
     </nav>
   </aside>
 
-  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
-  <!-- Main Container -->
-  <div class="container">
-    <!-- Login Box -->
+  <main class="container">
     <div class="login-box">
       <h2 class="login-title">Login Untuk Masuk</h2>
-      
       <form id="loginForm" class="login-form">
         <div class="form-group">
           <span class="input-icon"></span>
           <input type="email" id="email" class="form-input" placeholder="Alamat Email" required>
         </div>
-
         <div class="form-group">
           <span class="input-icon">🔒</span>
           <input type="password" id="password" class="form-input" placeholder="Password" required>
         </div>
-
         <div class="form-group">
           <div class="captcha-container">
             <span class="input-icon">🛡️</span>
@@ -62,7 +63,6 @@
             <button type="button" class="refresh-captcha" id="refreshCaptcha">🔄</button>
           </div>
         </div>
-
         <div class="button-group">
           <button type="button" class="btn btn-secondary" id="btnForgotPassword">Lupa Password</button>
           <button type="submit" class="btn btn-primary">Sign In</button>
@@ -70,121 +70,67 @@
       </form>
     </div>
 
-    <!-- Promo Banner -->
+    <div class="info-box" id="infoBox" style="display: none;">
+      <div class="info-title" id="infoTitle"></div>
+      <div class="info-content" id="infoContent"></div>
+    </div>
+
     <div class="promo-banner">
       <div class="promo-header">
         <span class="promo-icon">🎮</span>
         <h3>SELAMAT DATANG!</h3>
         <span class="promo-icon">🎮</span>
       </div>
-      <p class="promo-text">
-        MARI PENUHI<br>
-        LAKUKAN<br>
-        YANG BEDA DARI BIASANYA
-      </p>
+      <p class="promo-text">MARI PENUHI<br>LAKUKAN<br>YANG BEDA DARI BIASANYA</p>
       <div class="promo-buttons">
         <button class="btn-promo" id="btnMudah">MUDAH SEGALANYA!</button>
         <button class="btn-promo btn-primary-promo" id="btnCoba">SILAHKAN COBA →</button>
       </div>
     </div>
 
-    <!-- Social Media -->
     <div class="social-box">
       <p class="social-title">Follow Sosmed Kami Juga :</p>
       <div class="social-icons">
         <a href="#" class="social-icon instagram">📷</a>
         <a href="#" class="social-icon facebook">f</a>
         <a href="#" class="social-icon telegram">✈️</a>
-        <a href="#" class="social-icon twitter">𝕏</a>
+        <a href="#" class="social-icon twitter"></a>
         <a href="#" class="social-icon youtube">▶️</a>
         <a href="#" class="social-icon whatsapp">💬</a>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
-    <a href="#" class="nav-item active">
-      <span class="nav-icon">🏠</span>
-      <span class="nav-label">BERANDA</span>
-    </a>
-    <a href="#" class="nav-item" id="navDaftar">
-      <span class="nav-icon">✍️</span>
-      <span class="nav-label">DAFTAR</span>
-    </a>
-    <a href="#" class="nav-item" id="navEksplor">
-      <span class="nav-icon"></span>
-      <span class="nav-label">EKSPLOR</span>
-    </a>
-    <a href="#" class="nav-item" id="navLiveChat">
-      <span class="nav-icon">💬</span>
-      <span class="nav-label">LIVECHAT</span>
-    </a>
+    <a href="#" class="nav-item active"><span class="nav-icon">🏠</span><span class="nav-label">BERANDA</span></a>
+    <a href="#" class="nav-item" id="navDaftar"><span class="nav-icon">✍️</span><span class="nav-label">DAFTAR</span></a>
+    <a href="#" class="nav-item" id="navEksplor"><span class="nav-icon"></span><span class="nav-label">EKSPLOR</span></a>
+    <a href="#" class="nav-item" id="navLiveChat"><span class="nav-icon">💬</span><span class="nav-label">LIVECHAT</span></a>
   </nav>
 
-  <!-- Modal Eksplor -->
   <div class="modal" id="modalEksplor">
     <div class="modal-content modal-large">
       <button class="modal-close" id="closeModalEksplor">&times;</button>
       <div class="modal-header">
-        <div class="modal-icon">🎁</div>
+        <div class="modal-icon"></div>
         <h2>Eksplorasi Dashboard</h2>
         <p>Selamat datang di Sistem Manajemen SDN 139 LAMANDA</p>
       </div>
       <div class="modal-body">
         <h3 class="section-title">6 Fitur Global Utama</h3>
         <div class="feature-grid">
-          <div class="feature-item">
-            <div class="feature-icon portal">🌐</div>
-            <div class="feature-text">
-              <h4>Layanan Portal</h4>
-              <p>Akses cepat ke SIAGA Pendis, SIMPKB</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon arsip">📁</div>
-            <div class="feature-text">
-              <h4>Dokumen Arsip</h4>
-              <p>Penyimpanan dokumen penting</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon statistik">📊</div>
-            <div class="feature-text">
-              <h4>Data Statistik</h4>
-              <p>Visualisasi data real-time</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon admin">📚</div>
-            <div class="feature-text">
-              <h4>Administrasi Pembelajaran</h4>
-              <p>Modul ajar, penilaian, jadwal</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon kolab"></div>
-            <div class="feature-text">
-              <h4>Kolaborasi</h4>
-              <p>Ruang diskusi antar pendidik</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon monitor">👁️</div>
-            <div class="feature-text">
-              <h4>Monitoring</h4>
-              <p>Pantau progres pembelajaran</p>
-            </div>
-          </div>
+          <div class="feature-item"><div class="feature-icon portal">🌐</div><div class="feature-text"><h4>Layanan Portal</h4><p>Akses cepat ke SIAGA Pendis, SIMPKB</p></div></div>
+          <div class="feature-item"><div class="feature-icon arsip">📁</div><div class="feature-text"><h4>Dokumen Arsip</h4><p>Penyimpanan dokumen penting</p></div></div>
+          <div class="feature-item"><div class="feature-icon statistik">📊</div><div class="feature-text"><h4>Data Statistik</h4><p>Visualisasi data real-time</p></div></div>
+          <div class="feature-item"><div class="feature-icon admin"></div><div class="feature-text"><h4>Administrasi Pembelajaran</h4><p>Modul ajar, penilaian, jadwal</p></div></div>
+          <div class="feature-item"><div class="feature-icon kolab">🤝</div><div class="feature-text"><h4>Kolaborasi</h4><p>Ruang diskusi antar pendidik</p></div></div>
+          <div class="feature-item"><div class="feature-icon monitor">👁️</div><div class="feature-text"><h4>Monitoring</h4><p>Pantau progres pembelajaran</p></div></div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-modal-primary" id="btnSiapLogin">Mengerti, Saya Siap Login</button>
-      </div>
+      <div class="modal-footer"><button class="btn btn-modal-primary" id="btnSiapLogin">Mengerti, Saya Siap Login</button></div>
     </div>
   </div>
 
-  <!-- Modal Daftar -->
   <div class="modal" id="modalDaftar">
     <div class="modal-content">
       <button class="modal-close" id="closeModalDaftar">&times;</button>
@@ -193,41 +139,24 @@
         <h2>Pilih Jenis Pendaftaran</h2>
       </div>
       <div class="modal-body">
-        <a href="daftar-member.html" class="choice-card">
-          <div class="choice-icon member">👤</div>
-          <div class="choice-text">
-            <h3>Member Dashboard</h3>
-            <p>Untuk Guru, Staf, atau Admin</p>
-          </div>
-          <span class="choice-arrow">→</span>
-        </a>
-        <a href="daftar-ppdb.html" class="choice-card">
-          <div class="choice-icon ppdb">🎓</div>
-          <div class="choice-text">
-            <h3>Peserta Didik Baru</h3>
-            <p>Untuk calon siswa baru (PPDB)</p>
-          </div>
-          <span class="choice-arrow">→</span>
-        </a>
+        <a href="daftar-member.html" class="choice-card"><div class="choice-icon member">👤</div><div class="choice-text"><h3>Member Dashboard</h3><p>Untuk Guru, Staf, atau Admin</p></div><span class="choice-arrow">→</span></a>
+        <a href="daftar-ppdb.html" class="choice-card"><div class="choice-icon ppdb">🎓</div><div class="choice-text"><h3>Peserta Didik Baru</h3><p>Untuk calon siswa baru (PPDB)</p></div><span class="choice-arrow">→</span></a>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-modal-secondary" id="btnBatalDaftar">Batal</button>
-      </div>
+      <div class="modal-footer"><button class="btn btn-modal-secondary" id="btnBatalDaftar">Batal</button></div>
     </div>
   </div>
 
-  <!-- Modal Lupa Password -->
   <div class="modal" id="modalLupaPassword">
     <div class="modal-content modal-small">
       <button class="modal-close" id="closeModalLupaPassword">&times;</button>
       <div class="modal-header">
-        <div class="modal-icon"></div>
+        <div class="modal-icon">🔒</div>
         <h2>Lupa Password?</h2>
         <p>Masukkan email Anda. Kami akan mengirimkan tautan untuk mengatur ulang password.</p>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <span class="input-icon"></span>
+          <span class="input-icon">📧</span>
           <input type="email" id="resetEmail" class="form-input" placeholder="Alamat Email Terdaftar" required>
         </div>
         <div class="message-box" id="lupaPasswordMessage"></div>
@@ -239,11 +168,7 @@
     </div>
   </div>
 
-  <!-- Loading Spinner -->
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
-  </div>
-
+  <div class="loading" id="loading"><div class="spinner"></div></div>
   <script src="js/main.js"></script>
 </body>
 </html>
