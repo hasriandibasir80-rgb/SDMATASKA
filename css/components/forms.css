@@ -1,0 +1,8 @@
+.form-group { position: relative; margin-bottom: 20px; }
+.input-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 18px; z-index: 1; }
+.form-input { width: 100%; padding: 14px 15px 14px 45px; border: 2px solid var(--color-border); border-radius: var(--radius-md); font-size: 15px; transition: all 0.3s; }
+.form-input:focus { outline: none; border-color: var(--color-secondary); box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1); }
+.captcha-container { display: flex; align-items: center; gap: 10px; }
+.captcha-container .form-input { flex: 1; }
+.captcha-code { background: #f0f0f0; padding: 12px 16px; border-radius: 8px; font-weight: bold; font-size: 20px; letter-spacing: 4px; font-family: 'Courier New', monospace; user-select: none; }
+.refresh-captcha { background: #666; color: #fff; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 18px; }
