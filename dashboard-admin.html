@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - SDMATASKA</title>
+  
+  <link rel="stylesheet" href="css/core/variables.css">
+  <link rel="stylesheet" href="css/core/reset.css">
+  <link rel="stylesheet" href="css/components/buttons.css">
+  <link rel="stylesheet" href="css/components/cards.css">
+  <link rel="stylesheet" href="css/pages/dashboard.css">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="dash-sidebar" id="dashSidebar">
+      <div class="dash-sidebar-header">
+        <div class="logo-box">
+          <span class="logo-number">139</span>
+          <div class="logo-text">SDN 139<br><small>LAMANDA</small></div>
+        </div>
+        <button class="toggle-sidebar" id="toggleSidebar">‹</button>
+      </div>
+
+      <div class="user-profile-box">
+        <div class="user-avatar" id="userAvatar">A</div>
+        <div class="user-info">
+          <div class="user-email" id="userEmail">loading...</div>
+          <div class="user-role" id="userRole">Admin</div>
+        </div>
+      </div>
+
+      <nav class="dash-nav">
+        <a href="dashboard-admin.html" class="dash-nav-item active">
+          <span class="nav-icon">📊</span> <span class="nav-text">Dashboard</span>
+        </a>
+        <a href="#" class="dash-nav-item">
+          <span class="nav-icon">📁</span> <span class="nav-text">E-Dokumen</span> <span class="badge">4</span>
+        </a>
+        <a href="#" class="dash-nav-item">
+          <span class="nav-icon">📚</span> <span class="nav-text">Administrasi Guru</span> <span class="badge">18</span>
+        </a>
+        <a href="#" class="dash-nav-item">
+          <span class="nav-icon">📈</span> <span class="nav-text">Data Statistik</span> <span class="badge">3</span>
+        </a>
+        <a href="#" class="dash-nav-item">
+          <span class="nav-icon"></span> <span class="nav-text">E-Portal</span> <span class="badge">4</span>
+        </a>
+        <a href="#" class="dash-nav-item">
+          <span class="nav-icon">🗄️</span> <span class="nav-text">Master Data</span> <span class="badge">8</span>
+        </a>
+        <a href="#" class="dash-nav-item">
+          <span class="nav-icon">⚙️</span> <span class="nav-text">Pengaturan</span>
+        </a>
+        <a href="#" class="dash-nav-item">
+          <span class="nav-icon"></span> <span class="nav-text">Laporan</span>
+        </a>
+        <a href="#" class="dash-nav-item text-danger" id="btnLogout">
+          <span class="nav-icon">🚪</span> <span class="nav-text">Keluar</span>
+        </a>
+      </nav>
+
+      <div class="dash-sidebar-footer">
+        <p>NPSN 40312947</p>
+        <p>SDN 139 LAMANDA</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dash-main">
+      <!-- Topbar -->
+      <header class="dash-topbar">
+        <div class="breadcrumb">Admin / Dashboard</div>
+        <div class="topbar-actions">
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="text" placeholder="Cari data, siswa, guru...">
+          </div>
+          <button class="icon-btn">🔔</button>
+          <button class="icon-btn">💬</button>
+          <div class="current-date" id="currentDate">14 Sep 2026</div>
+        </div>
+      </header>
+
+      <div class="dash-content">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h2>Selamat datang kembali, <span id="welcomeName">Admin</span>! 👋</h2>
+            <p>SDN 139 LAMANDA • Akreditasi A • <span id="statsSummary">Memuat data...</span></p>
+          </div>
+          <div class="welcome-actions">
+            <button class="btn btn-outline-light">Export Dapodik</button>
+            <button class="btn btn-warning">+ Tambah Data</button>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon bg-blue">👨‍🎓</div>
+            <div class="stat-info">
+              <h3>48</h3>
+              <p>Total Siswa Aktif - Master Data</p>
+              <span class="stat-badge success">+2 bulan ini</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-green">👨‍</div>
+            <div class="stat-info">
+              <h3>2</h3>
+              <p>PTK / Guru Aktif - Auto-fill NIP</p>
+              <span class="stat-badge success">100% hadir</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-yellow">📂</div>
+            <div class="stat-info">
+              <h3>127</h3>
+              <p>Dokumen Digital - Hanya milik sendiri</p>
+              <span class="stat-badge warning">Owner Only</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-purple">📝</div>
+            <div class="stat-info">
+              <h3>18</h3>
+              <p>Sub Administrasi Guru</p>
+              <span class="stat-badge info">18 Fitur</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts & Sub Features -->
+        <div class="dashboard-grid-2">
+          <!-- Chart Section -->
+          <div class="content-card">
+            <div class="card-header">
+              <h3>Statistik Kehadiran Siswa</h3>
+              <select class="form-select-sm">
+                <option>Bulan Ini</option>
+                <option>Semester Ini</option>
+              </select>
+            </div>
+            <div class="card-body">
+              <canvas id="attendanceChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Sub Features Grid -->
+          <div class="content-card">
+            <div class="card-header">
+              <h3>Administrasi Guru Terbaru - 18 Fitur</h3>
+              <a href="#" class="link-primary">Lihat Semua</a>
+            </div>
+            <div class="card-body">
+              <div class="sub-feature-grid">
+                <a href="#" class="sub-feature-item"><span></span> 1. Kisi-kisi Soal</a>
+                <a href="#" class="sub-feature-item"><span>🛠️</span> 2. Pembuat Soal</a>
+                <a href="#" class="sub-feature-item"><span>📚</span> 3. Bank Soal</a>
+                <a href="#" class="sub-feature-item"><span>📋</span> 4. RPM</a>
+                <a href="#" class="sub-feature-item"><span>📑</span> 5. Bank RPM</a>
+                <a href="#" class="sub-feature-item"><span>📱</span> 6. LCKH</a>
+                <a href="#" class="sub-feature-item"><span>📗</span> 7. LKPD</a>
+                <a href="#" class="sub-feature-item"><span>📊</span> 8. Analisis KKTP</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/ui/dashboard-sidebar.js"></script>
+  <script type="module" src="js/pages/dashboard-admin.js"></script>
+</body>
+</html>
