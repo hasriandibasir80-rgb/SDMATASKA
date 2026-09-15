@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Member - SDMATASKA</title>
+  
+  <link rel="stylesheet" href="css/core/variables.css">
+  <link rel="stylesheet" href="css/core/reset.css">
+  <link rel="stylesheet" href="css/layout/page-layout.css">
+  <link rel="stylesheet" href="css/layout/header.css">
+  <link rel="stylesheet" href="css/layout/sidebar.css">
+  <link rel="stylesheet" href="css/layout/bottom-nav.css">
+  <link rel="stylesheet" href="css/components/buttons.css">
+  <link rel="stylesheet" href="css/components/forms.css">
+  <link rel="stylesheet" href="css/components/modals.css">
+  <link rel="stylesheet" href="css/components/cards.css">
+  <link rel="stylesheet" href="css/pages/login.css">
+</head>
+<body>
+  <header class="header">
+    <button class="menu-toggle" id="menuToggle">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="logo">
+      <h1>SALAM <span>D MATASKA</span></h1>
+    </div>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3> TENTANG KAMI</h3>
+      <button class="close-sidebar" id="closeSidebar">&times;</button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="visi-misi.html" class="nav-link"> Visi & Misi Sekolah</a>
+      <a href="personil.html" class="nav-link">👥 Personil</a>
+      <a href="rubrik-info.html" class="nav-link">📰 Rubrik Info</a>
+      <a href="layanan.html" class="nav-link">🛠️ Kombel SAHABAT BERIMAN</a>
+      <a href="bel-sekolah.html" class="nav-link">🔔 Bel Sekolah</a>
+    </nav>
+  </aside>
+
+  <div class="overlay" id="overlay"></div>
+
+  <main class="container">
+    <div class="login-box" style="max-width: 550px;">
+      <h2 class="login-title">Daftar Member Dashboard</h2>
+      <p class="text-center" style="margin-bottom: 20px; color: var(--text-muted, #666);">
+        Untuk Guru, Staf, atau Admin Sekolah
+      </p>
+      <form id="registerForm" class="login-form">
+        <div class="form-group">
+          <span class="input-icon">👤</span>
+          <input type="text" id="regNama" class="form-input" placeholder="Nama Lengkap" required>
+        </div>
+        <div class="form-group">
+          <span class="input-icon">📧</span>
+          <input type="email" id="regEmail" class="form-input" placeholder="Alamat Email" required>
+        </div>
+        <div class="form-group">
+          <span class="input-icon"></span>
+          <input type="text" id="regNip" class="form-input" placeholder="NIP" required>
+        </div>
+        <div class="form-group">
+          <span class="input-icon">🏫</span>
+          <input type="text" id="regSekolah" class="form-input" placeholder="Asal Sekolah" required>
+        </div>
+        <div class="form-group">
+          <span class="input-icon">🔢</span>
+          <input type="text" id="regNpsn" class="form-input" placeholder="No. NPSN" required>
+        </div>
+        <div class="form-group">
+          <span class="input-icon">👨💼</span>
+          <input type="text" id="regNamaKepsek" class="form-input" placeholder="Nama Kepala Sekolah" required>
+        </div>
+        <div class="form-group">
+          <span class="input-icon">🆔</span>
+          <input type="text" id="regNipKepsek" class="form-input" placeholder="NIP Kepala Sekolah" required>
+        </div>
+        <div class="form-group">
+          <span class="input-icon">💼</span>
+          <select id="regJabatan" class="form-input" required style="padding-left: 40px;">
+            <option value="">Pilih Jabatan</option>
+            <option value="admin_sekolah">Admin Sekolah</option>
+            <option value="kepsek">Kepala Sekolah</option>
+            <option value="guru_kelas">Guru Kelas</option>
+            <option value="guru_mapel">Guru Mapel</option>
+            <option value="tendik">Tendik</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="regPassword" class="form-input" placeholder="Password (min. 6 karakter)" minlength="6" required>
+        </div>
+        <div class="button-group">
+          <a href="index.html" class="btn btn-secondary">Batal</a>
+          <button type="submit" class="btn btn-primary">Daftar</button>
+        </div>
+      </form>
+      <p class="text-center" style="margin-top: 20px; font-size: 13px; color: var(--text-muted, #666);">
+        Akun Anda akan menunggu persetujuan Super Admin sebelum dapat login.
+      </p>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">BERANDA</span></a>
+    <a href="#" class="nav-item active"><span class="nav-icon">✍️</span><span class="nav-label">DAFTAR</span></a>
+    <a href="#" class="nav-item" id="navEksplor"><span class="nav-icon"></span><span class="nav-label">EKSPLOR</span></a>
+    <a href="#" class="nav-item" id="navLiveChat"><span class="nav-icon">💬</span><span class="nav-label">LIVECHAT</span></a>
+  </nav>
+
+  <div class="loading" id="loading"><div class="spinner"></div></div>
+  <script type="module" src="js/auth/register-service.js"></script>
+</body>
+</html>
