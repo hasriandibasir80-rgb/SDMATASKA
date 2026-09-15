@@ -1,7 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAIMGboQ0_HUyE8gJiNH6qdXIFo_n_QBVI",
+  apiKey: "AIzaSyAINgbaO0_HUyE8gJiNH6qdXIFo_n_QBvI",
   authDomain: "salamdmataska.firebaseapp.com",
   projectId: "salamdmataska",
   storageBucket: "salamdmataska.firebasestorage.app",
