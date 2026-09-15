@@ -31,9 +31,10 @@ export class RoleRouter {
 
       if (targetPage) {
         // Simpan data user ke sessionStorage untuk auto-fill profil cepat
-        // Ditambahkan field npsn, nama_sekolah, nama_kepsek, nip_kepsek sesuai kebutuhan blueprint
+        // Ditambahkan field email, npsn, nama_sekolah, nama_kepsek, nip_kepsek sesuai kebutuhan blueprint
         sessionStorage.setItem('currentUser', JSON.stringify({
           uid: userData.uid,
+          email: userData.email || '', // <-- Ditambahkan agar sidebar menampilkan email
           role: role,
           nama: userData.nama,
           nip: userData.nip || '',
