@@ -8,15 +8,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const user = JSON.parse(sessionStorage.getItem('currentUser'));
 
   if (user) {
-    document.getElementById('userEmail').textContent = user.email || 'user@sdmataska.sch.id';
-    document.getElementById('userRole').textContent = user.role.replace('_', ' ').toUpperCase();
-    document.getElementById('userAvatar').textContent = (user.nama || 'A').charAt(0).toUpperCase();
-    document.getElementById('welcomeName').textContent = user.nama || 'Admin';
+    // Update elemen yang sudah ada (dengan pengecekan aman)
+    const emailEl = document.getElementById('userEmail');
+    if (emailEl) emailEl.textContent = user.email || 'user@sdmataska.sch.id';
+    
+    const roleEl = document.getElementById('userRole');
+    if (roleEl) roleEl.textContent = user.role.replace(/_/g, ' ').toUpperCase();
+    
+    const avatarEl = document.getElementById('userAvatar');
+    if (avatarEl) avatarEl.textContent = (user.nama || 'A').charAt(0).toUpperCase();
+    
+    const welcomeEl = document.getElementById('welcomeName');
+    if (welcomeEl) welcomeEl.textContent = user.nama || 'Admin';
+
+    // Update elemen auto-fill baru (jika ada di HTML)
+    const nipEl = document.getElementById('userNip');
+    if (nipEl) nipEl.textContent = user.nip || '-';
+
+    const schoolEl = document.getElementById('userSchool');
+    if (schoolEl) schoolEl.textContent = user.nama_sekolah || '-';
+
+    const kepsekEl = document.getElementById('userKepsek');
+    if (kepsekEl) kepsekEl.textContent = user.nama_kepsek || '-';
   } else {
     window.location.href = 'index.html';
   }
 
-  if (toggleBtn) {
+  if (toggleBtn && sidebar) {
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('collapsed');
       toggleBtn.textContent = sidebar.classList.contains('collapsed') ? '›' : '‹';
