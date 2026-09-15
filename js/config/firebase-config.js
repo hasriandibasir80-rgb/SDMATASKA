@@ -10,6 +10,8 @@ const firebaseConfig = {
   measurementId: "G-ZHE0TR058H"
 };
 
+console.log(' Firebase API Key:', firebaseConfig.apiKey); // Debug line
+
 const app = initializeApp(firebaseConfig);
 
 export default app;
