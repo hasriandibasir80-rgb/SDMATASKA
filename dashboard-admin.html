@@ -34,11 +34,14 @@
       </div>
 
       <nav class="dash-nav">
-        <a href="dashboard-admin.html" class="dash-nav-item active">
-          <span class="nav-icon">📊</span> <span class="nav-text">Dashboard</span>
+        <a href="dashboard-admin.html" class="dash-nav-item active" data-view="dashboard">
+          <span class="nav-icon"></span> <span class="nav-text">Dashboard</span>
+        </a>
+        <a href="#" class="dash-nav-item" data-view="approval" id="menuApproval" style="display: none;">
+          <span class="nav-icon">✅</span> <span class="nav-text">Approval User</span> <span class="badge" id="badgeApproval">0</span>
         </a>
         <a href="#" class="dash-nav-item">
-          <span class="nav-icon">📁</span> <span class="nav-text">E-Dokumen</span> <span class="badge">4</span>
+          <span class="nav-icon"></span> <span class="nav-text">E-Dokumen</span> <span class="badge">4</span>
         </a>
         <a href="#" class="dash-nav-item">
           <span class="nav-icon">📚</span> <span class="nav-text">Administrasi Guru</span> <span class="badge">18</span>
@@ -47,19 +50,19 @@
           <span class="nav-icon">📈</span> <span class="nav-text">Data Statistik</span> <span class="badge">3</span>
         </a>
         <a href="#" class="dash-nav-item">
-          <span class="nav-icon"></span> <span class="nav-text">E-Portal</span> <span class="badge">4</span>
+          <span class="nav-icon">🌐</span> <span class="nav-text">E-Portal</span> <span class="badge">4</span>
         </a>
         <a href="#" class="dash-nav-item">
           <span class="nav-icon">🗄️</span> <span class="nav-text">Master Data</span> <span class="badge">8</span>
         </a>
         <a href="#" class="dash-nav-item">
-          <span class="nav-icon">⚙️</span> <span class="nav-text">Pengaturan</span>
+          <span class="nav-icon">️</span> <span class="nav-text">Pengaturan</span>
         </a>
         <a href="#" class="dash-nav-item">
-          <span class="nav-icon"></span> <span class="nav-text">Laporan</span>
+          <span class="nav-icon">📄</span> <span class="nav-text">Laporan</span>
         </a>
         <a href="#" class="dash-nav-item text-danger" id="btnLogout">
-          <span class="nav-icon">🚪</span> <span class="nav-text">Keluar</span>
+          <span class="nav-icon"></span> <span class="nav-text">Keluar</span>
         </a>
       </nav>
 
@@ -73,7 +76,7 @@
     <main class="dash-main">
       <!-- Topbar -->
       <header class="dash-topbar">
-        <div class="breadcrumb">Admin / Dashboard</div>
+        <div class="breadcrumb" id="breadcrumb">Admin / Dashboard</div>
         <div class="topbar-actions">
           <div class="search-box">
             <span>🔍</span>
@@ -86,86 +89,104 @@
       </header>
 
       <div class="dash-content">
-        <!-- Welcome Banner -->
-        <div class="welcome-banner">
-          <div class="welcome-text">
-            <h2>Selamat datang kembali, <span id="welcomeName">Admin</span>! 👋</h2>
-            <p>SDN 139 LAMANDA • Akreditasi A • <span id="statsSummary">Memuat data...</span></p>
+        <!-- VIEW: Dashboard (Default) -->
+        <div id="viewDashboard">
+          <!-- Welcome Banner -->
+          <div class="welcome-banner">
+            <div class="welcome-text">
+              <h2>Selamat datang kembali, <span id="welcomeName">Admin</span>! 👋</h2>
+              <p>SDN 139 LAMANDA • Akreditasi A • <span id="statsSummary">Memuat data...</span></p>
+            </div>
+            <div class="welcome-actions">
+              <button class="btn btn-outline-light">Export Dapodik</button>
+              <button class="btn btn-warning">+ Tambah Data</button>
+            </div>
           </div>
-          <div class="welcome-actions">
-            <button class="btn btn-outline-light">Export Dapodik</button>
-            <button class="btn btn-warning">+ Tambah Data</button>
+
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon bg-blue">👨‍</div>
+              <div class="stat-info">
+                <h3>48</h3>
+                <p>Total Siswa Aktif - Master Data</p>
+                <span class="stat-badge success">+2 bulan ini</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-green">👨‍🏫</div>
+              <div class="stat-info">
+                <h3>2</h3>
+                <p>PTK / Guru Aktif - Auto-fill NIP</p>
+                <span class="stat-badge success">100% hadir</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-yellow">📂</div>
+              <div class="stat-info">
+                <h3>127</h3>
+                <p>Dokumen Digital - Hanya milik sendiri</p>
+                <span class="stat-badge warning">Owner Only</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-purple"></div>
+              <div class="stat-info">
+                <h3>18</h3>
+                <p>Sub Administrasi Guru</p>
+                <span class="stat-badge info">18 Fitur</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts & Sub Features -->
+          <div class="dashboard-grid-2">
+            <!-- Chart Section -->
+            <div class="content-card">
+              <div class="card-header">
+                <h3>Statistik Kehadiran Siswa</h3>
+                <select class="form-select-sm">
+                  <option>Bulan Ini</option>
+                  <option>Semester Ini</option>
+                </select>
+              </div>
+              <div class="card-body">
+                <canvas id="attendanceChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Sub Features Grid -->
+            <div class="content-card">
+              <div class="card-header">
+                <h3>Administrasi Guru Terbaru - 18 Fitur</h3>
+                <a href="#" class="link-primary">Lihat Semua</a>
+              </div>
+              <div class="card-body">
+                <div class="sub-feature-grid">
+                  <a href="#" class="sub-feature-item"><span>📋</span> 1. Kisi-kisi Soal</a>
+                  <a href="#" class="sub-feature-item"><span>🛠️</span> 2. Pembuat Soal</a>
+                  <a href="#" class="sub-feature-item"><span></span> 3. Bank Soal</a>
+                  <a href="#" class="sub-feature-item"><span>📑</span> 4. RPM</a>
+                  <a href="#" class="sub-feature-item"><span>📋</span> 5. Bank RPM</a>
+                  <a href="#" class="sub-feature-item"><span>📱</span> 6. LCKH</a>
+                  <a href="#" class="sub-feature-item"><span>📗</span> 7. LKPD</a>
+                  <a href="#" class="sub-feature-item"><span></span> 8. Analisis KKTP</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Stats Cards -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon bg-blue">👨‍🎓</div>
-            <div class="stat-info">
-              <h3>48</h3>
-              <p>Total Siswa Aktif - Master Data</p>
-              <span class="stat-badge success">+2 bulan ini</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon bg-green">👨‍</div>
-            <div class="stat-info">
-              <h3>2</h3>
-              <p>PTK / Guru Aktif - Auto-fill NIP</p>
-              <span class="stat-badge success">100% hadir</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon bg-yellow">📂</div>
-            <div class="stat-info">
-              <h3>127</h3>
-              <p>Dokumen Digital - Hanya milik sendiri</p>
-              <span class="stat-badge warning">Owner Only</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon bg-purple">📝</div>
-            <div class="stat-info">
-              <h3>18</h3>
-              <p>Sub Administrasi Guru</p>
-              <span class="stat-badge info">18 Fitur</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Charts & Sub Features -->
-        <div class="dashboard-grid-2">
-          <!-- Chart Section -->
+        <!-- VIEW: Approval User (Hanya untuk Super Admin) -->
+        <div id="viewApproval" style="display: none;">
           <div class="content-card">
             <div class="card-header">
-              <h3>Statistik Kehadiran Siswa</h3>
-              <select class="form-select-sm">
-                <option>Bulan Ini</option>
-                <option>Semester Ini</option>
-              </select>
+              <h3>📋 Daftar User Menunggu Persetujuan</h3>
+              <button class="btn btn-primary btn-sm" id="btnRefreshApproval">🔄 Refresh</button>
             </div>
             <div class="card-body">
-              <canvas id="attendanceChart"></canvas>
-            </div>
-          </div>
-
-          <!-- Sub Features Grid -->
-          <div class="content-card">
-            <div class="card-header">
-              <h3>Administrasi Guru Terbaru - 18 Fitur</h3>
-              <a href="#" class="link-primary">Lihat Semua</a>
-            </div>
-            <div class="card-body">
-              <div class="sub-feature-grid">
-                <a href="#" class="sub-feature-item"><span></span> 1. Kisi-kisi Soal</a>
-                <a href="#" class="sub-feature-item"><span>🛠️</span> 2. Pembuat Soal</a>
-                <a href="#" class="sub-feature-item"><span>📚</span> 3. Bank Soal</a>
-                <a href="#" class="sub-feature-item"><span>📋</span> 4. RPM</a>
-                <a href="#" class="sub-feature-item"><span>📑</span> 5. Bank RPM</a>
-                <a href="#" class="sub-feature-item"><span>📱</span> 6. LCKH</a>
-                <a href="#" class="sub-feature-item"><span>📗</span> 7. LKPD</a>
-                <a href="#" class="sub-feature-item"><span>📊</span> 8. Analisis KKTP</a>
+              <div id="pendingUsersList">
+                <p class="text-muted">Memuat data...</p>
               </div>
             </div>
           </div>
@@ -176,5 +197,6 @@
 
   <script type="module" src="js/ui/dashboard-sidebar.js"></script>
   <script type="module" src="js/pages/dashboard-admin.js"></script>
+  <script type="module" src="js/admin/approval-manager.js"></script>
 </body>
 </html>
