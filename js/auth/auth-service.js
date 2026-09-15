@@ -1,7 +1,9 @@
-import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { auth } from '../config/service-firebase.js';
+import { signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { collectionGroup, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { auth, db } from '../config/service-firebase.js';
 import { Captcha } from '../utils/captcha.js';
 import { RoleRouter } from './role-router.js';
+import { AppConfig } from '../config/app-config.js';
 
 export class AuthService {
   constructor() {
@@ -38,8 +40,39 @@ export class AuthService {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 4. Redirect berdasarkan Role
-      await this.roleRouter.redirectByRole(user.uid);
+      // 4. Cek Status Approval User (Mencari di semua folder schools/{npsn}/data/users/)
+      const q = query(collectionGroup(db, 'users'), where('uid', '==', user.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        await signOut(auth);
+        alert('Data user tidak ditemukan di database. Hubungi Administrator.');
+        this.captchaManager.generate();
+        document.getElementById('captchaInput').value = '';
+        return;
+      }
+
+      const userData = querySnapshot.docs[0].data();
+
+      // 5. Validasi Status Approval
+      if (userData.approval_status === AppConfig.APPROVAL_STATUS.PENDING) {
+        await signOut(auth);
+        alert('Akun Anda masih menunggu persetujuan Super Admin.');
+        this.captchaManager.generate();
+        document.getElementById('captchaInput').value = '';
+        return;
+      }
+
+      if (userData.approval_status === AppConfig.APPROVAL_STATUS.REJECTED) {
+        await signOut(auth);
+        alert('Akun Anda telah ditolak. Silakan hubungi Administrator sekolah.');
+        this.captchaManager.generate();
+        document.getElementById('captchaInput').value = '';
+        return;
+      }
+
+      // 6. Jika Approved, Redirect berdasarkan Role (userData dikirim agar tidak perlu fetch ulang)
+      await this.roleRouter.redirectByRole(user.uid, userData);
 
     } catch (error) {
       console.error("Login Error:", error);
@@ -68,7 +101,8 @@ export class AuthService {
   async logout() {
     this.toggleLoading(true);
     try {
-      await auth.signOut();
+      await signOut(auth);
+      sessionStorage.removeItem('currentUser'); // Bersihkan session saat logout
       window.location.href = 'index.html';
     } catch (error) {
       console.error("Logout Error:", error);
