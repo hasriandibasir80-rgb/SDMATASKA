@@ -15,11 +15,14 @@ export class Captcha {
     // Generate 5 digit random number
     this.captchaCode = Math.floor(10000 + Math.random() * 90000).toString();
     if (this.captchaElement) {
-      this.captchaElement.textContent = this.captchaCode;
+      // Tampilkan dengan spasi untuk kemudahan membaca
+      this.captchaElement.textContent = this.captchaCode.split('').join(' ');
     }
   }
 
   verify(input) {
-    return input === this.captchaCode;
+    // Hapus spasi dari input user dan bandingkan
+    const inputClean = input.trim().replace(/\s/g, '');
+    return inputClean === this.captchaCode;
   }
 }
