@@ -1,1 +1,34 @@
 /* Khusus penyesuaian halaman login jika diperlukan di masa depan */
+/* Tambahkan ini di css/pages/login.css atau css/components/forms.css */
+.captcha-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.captcha-code {
+  background-color: #f0f0f0; /* Warna background abu-abu muda */
+  color: #333333; /* Warna teks gelap agar kontras */
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 3px; /* Jarak antar angka agar mudah dibaca */
+  padding: 8px 15px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  user-select: none; /* Mencegah user copy-paste captcha */
+  min-width: 80px;
+  text-align: center;
+}
+
+.refresh-captcha {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s;
+}
+
+.refresh-captcha:hover {
+  transform: rotate(180deg); /* Efek putar saat di-hover */
+}
