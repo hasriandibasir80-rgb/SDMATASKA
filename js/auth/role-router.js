@@ -2,7 +2,6 @@ import { AppConfig } from '../config/app-config.js';
 
 export class RoleRouter {
   constructor() {
-    // Pemetaan role ke halaman dashboard (disesuaikan dengan AppConfig.ROLES terbaru)
     this.routes = {
       [AppConfig.ROLES.SUPER_ADMIN]: 'dashboard-admin.html',
       [AppConfig.ROLES.KEPALA_SEKOLAH]: 'dashboard-kepsek.html',
@@ -17,24 +16,19 @@ export class RoleRouter {
     };
   }
 
-  // Menerima userData sebagai parameter (sudah di-fetch di auth-service.js)
-  async redirectByRole(uid, userData = null) {
+  async redirectByRole(uid, userData = null, userSource = 'root') {
     try {
-      // Jika userData tidak dikirim (fallback), lempar error karena struktur baru membutuhkan npsn
       if (!userData) {
         throw new Error("Data pengguna tidak tersedia. Silakan login ulang.");
       }
 
-      // Gunakan 'jabatan' sebagai role (sesuai register-service) atau fallback ke 'role'
       const role = userData.jabatan || userData.role;
       const targetPage = this.routes[role];
 
       if (targetPage) {
-        // Simpan data user ke sessionStorage untuk auto-fill profil cepat
-        // Ditambahkan field email, npsn, nama_sekolah, nama_kepsek, nip_kepsek sesuai kebutuhan blueprint
         sessionStorage.setItem('currentUser', JSON.stringify({
           uid: userData.uid,
-          email: userData.email || '', // <-- Ditambahkan agar sidebar menampilkan email
+          email: userData.email || '',
           role: role,
           nama: userData.nama,
           nip: userData.nip || '',
@@ -43,7 +37,8 @@ export class RoleRouter {
           nama_kepsek: userData.nama_kepsek || '',
           nip_kepsek: userData.nip_kepsek || '',
           kelas_id: userData.kelas_id || '',
-          mapel_diajar: userData.mapel_diajar || []
+          mapel_diajar: userData.mapel_diajar || [],
+          userSource: userSource 
         }));
         
         window.location.href = targetPage;
