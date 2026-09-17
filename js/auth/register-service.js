@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
           nip_kepsek: nipKepsek
         }, { merge: true });
 
-        await setDoc(doc(db, 'schools', npsn, 'data', 'users', uid), {
+        await setDoc(doc(db, 'schools', npsn, 'users', uid), {
           uid: uid,
           email: email,
           nama: nama,
