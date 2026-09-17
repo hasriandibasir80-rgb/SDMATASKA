@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { collectionGroup, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { doc, getDoc, collectionGroup, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { auth, db } from '../config/service-firebase.js';
 import { Captcha } from '../utils/captcha.js';
 import { RoleRouter } from './role-router.js';
@@ -24,7 +24,6 @@ export class AuthService {
     const password = document.getElementById('password').value;
     const captchaInput = document.getElementById('captchaInput').value.trim();
 
-    // 1. Validasi Captcha
     if (!this.captchaManager.verify(captchaInput)) {
       alert('Captcha salah! Silakan coba lagi.');
       this.captchaManager.generate();
@@ -32,19 +31,32 @@ export class AuthService {
       return;
     }
 
-    // 2. Tampilkan Loading
     this.toggleLoading(true);
 
     try {
-      // 3. Proses Login Firebase
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 4. Cek Status Approval User (Mencari di semua folder schools/{npsn}/data/users/)
-      const q = query(collectionGroup(db, 'users'), where('uid', '==', user.uid));
-      const querySnapshot = await getDocs(q);
+      let userData = null;
+      let userSource = null;
 
-      if (querySnapshot.empty) {
+      const rootUserRef = doc(db, 'users', user.uid);
+      const rootUserSnap = await getDoc(rootUserRef);
+
+      if (rootUserSnap.exists()) {
+        userData = rootUserSnap.data();
+        userSource = 'root';
+      } else {
+        const q = query(collectionGroup(db, 'users'), where('uid', '==', user.uid));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          userData = querySnapshot.docs[0].data();
+          userSource = 'nested';
+        }
+      }
+
+      if (!userData) {
         await signOut(auth);
         alert('Data user tidak ditemukan di database. Hubungi Administrator.');
         this.captchaManager.generate();
@@ -52,27 +64,24 @@ export class AuthService {
         return;
       }
 
-      const userData = querySnapshot.docs[0].data();
-
-      // 5. Validasi Status Approval
-      if (userData.approval_status === AppConfig.APPROVAL_STATUS.PENDING) {
-        await signOut(auth);
-        alert('Akun Anda masih menunggu persetujuan Super Admin.');
-        this.captchaManager.generate();
-        document.getElementById('captchaInput').value = '';
-        return;
+      if (userData.role !== AppConfig.ROLES.SUPER_ADMIN) {
+        if (userData.approval_status === AppConfig.APPROVAL_STATUS.PENDING) {
+          await signOut(auth);
+          alert('Akun Anda masih menunggu persetujuan Admin.');
+          this.captchaManager.generate();
+          document.getElementById('captchaInput').value = '';
+          return;
+        }
+        if (userData.approval_status === AppConfig.APPROVAL_STATUS.REJECTED) {
+          await signOut(auth);
+          alert('Akun Anda telah ditolak. Silakan hubungi Administrator.');
+          this.captchaManager.generate();
+          document.getElementById('captchaInput').value = '';
+          return;
+        }
       }
 
-      if (userData.approval_status === AppConfig.APPROVAL_STATUS.REJECTED) {
-        await signOut(auth);
-        alert('Akun Anda telah ditolak. Silakan hubungi Administrator sekolah.');
-        this.captchaManager.generate();
-        document.getElementById('captchaInput').value = '';
-        return;
-      }
-
-      // 6. Jika Approved, Redirect berdasarkan Role
-      await this.roleRouter.redirectByRole(user.uid, userData);
+      await this.roleRouter.redirectByRole(user.uid, userData, userSource);
 
     } catch (error) {
       console.error("Login Error:", error);
