@@ -1,4 +1,4 @@
-import { collectionGroup, query, where, getDocs, updateDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { collection, query, where, getDocs, updateDoc, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { db } from '../config/service-firebase.js';
 
 export class ApprovalManager {
@@ -10,31 +10,52 @@ export class ApprovalManager {
     async loadPendingUsers() {
         this.container.innerHTML = '<p>Memuat data...</p>';
         try {
-            const q = query(
-                collectionGroup(db, 'users'),
-                where('approval_status', '==', 'pending')
-            );
-            const snapshot = await getDocs(q);
+            // Ambil semua dokumen sekolah
+            const schoolsSnapshot = await getDocs(collection(db, 'schools'));
             
-            if (snapshot.empty) {
+            if (schoolsSnapshot.empty) {
+                this.container.innerHTML = '<p>Tidak ada data sekolah.</p>';
+                return;
+            }
+
+            let allPendingUsers = [];
+
+            // Query user pending dari setiap sekolah
+            for (const schoolDoc of schoolsSnapshot.docs) {
+                const npsn = schoolDoc.id;
+                const schoolData = schoolDoc.data();
+                
+                const usersQuery = query(
+                    collection(db, 'schools', npsn, 'users'),
+                    where('approval_status', '==', 'pending')
+                );
+                
+                const usersSnapshot = await getDocs(usersQuery);
+                
+                usersSnapshot.forEach(userDoc => {
+                    const userData = userDoc.data();
+                    allPendingUsers.push({
+                        uid: userDoc.id,
+                        npsn: npsn,
+                        ...userData
+                    });
+                });
+            }
+            
+            if (allPendingUsers.length === 0) {
                 this.container.innerHTML = '<p>Tidak ada user menunggu approval.</p>';
                 return;
             }
 
             let html = '<div class="approval-list">';
-            snapshot.forEach(docSnap => {
-                const data = docSnap.data();
-                const pathParts = docSnap.ref.path.split('/');
-                const npsn = pathParts[1]; 
-                const uid = pathParts[3];
-
+            allPendingUsers.forEach(user => {
                 html += `
                     <div class="approval-card" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 8px;">
-                        <h4>${data.nama} (${data.jabatan})</h4>
-                        <p>Email: ${data.email} | NIP: ${data.nip}</p>
-                        <p>Sekolah: ${data.nama_sekolah} (NPSN: ${npsn})</p>
-                        <button class="btn-approve" data-npsn="${npsn}" data-uid="${uid}" style="background: green; color: white; padding: 5px 10px; margin-right: 5px;">Approve</button>
-                        <button class="btn-reject" data-npsn="${npsn}" data-uid="${uid}" style="background: red; color: white; padding: 5px 10px;">Reject</button>
+                        <h4>${user.nama} (${user.jabatan})</h4>
+                        <p>Email: ${user.email} | NIP: ${user.nip}</p>
+                        <p>Sekolah: ${user.nama_sekolah} (NPSN: ${user.npsn})</p>
+                        <button class="btn-approve" data-npsn="${user.npsn}" data-uid="${user.uid}" style="background: green; color: white; padding: 5px 10px; margin-right: 5px;">Approve</button>
+                        <button class="btn-reject" data-npsn="${user.npsn}" data-uid="${user.uid}" style="background: red; color: white; padding: 5px 10px;">Reject</button>
                     </div>
                 `;
             });
@@ -50,13 +71,13 @@ export class ApprovalManager {
 
         } catch (error) {
             console.error(error);
-            this.container.innerHTML = '<p>Gagal memuat data. Pastikan index Firestore sudah dibuat.</p>';
+            this.container.innerHTML = '<p>Gagal memuat data. Periksa console untuk detail error.</p>';
         }
     }
 
     async updateStatus(npsn, uid, status) {
         try {
-            await updateDoc(doc(db, 'schools', npsn, 'data', 'users', uid), {
+            await updateDoc(doc(db, 'schools', npsn, 'users', uid), {
                 approval_status: status,
                 tanggal_approval: new Date().toISOString()
             });
