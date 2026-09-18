@@ -31,9 +31,9 @@ export class Sidebar {
     if (normalizedRole === 'super_admin') {
       features.push(
         { id: 'approval', label: 'Approval User', icon: '✅', url: 'dashboard.html#approval' },
-        { id: 'e-dokumen', label: 'e-Dokumen', icon: '', url: 'pages/e-dokumen.html' },
-        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '', url: 'pages/administrasi-guru.html' },
-        { id: 'data-statistik', label: 'Data Statistik', icon: '', url: 'pages/data-statistik.html' },
+        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: 'pages/e-dokumen.html' },
+        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: 'pages/administrasi-guru.html' },
+        { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: 'pages/data-statistik.html' },
         { id: 'e-portal', label: 'e-Portal', icon: '🔗', url: 'pages/e-portal.html' },
         { id: 'data-master', label: 'Data Master', icon: '🗂️', url: 'pages/data-master.html' }
       );
@@ -47,31 +47,29 @@ export class Sidebar {
       );
     } else if (normalizedRole === 'staf_tu') {
       features.push(
-        { id: 'e-dokumen', label: 'e-Dokumen', icon: '', url: 'pages/e-dokumen.html' },
-        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '', url: 'pages/administrasi-guru.html' },
+        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: 'pages/e-dokumen.html' },
+        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: 'pages/administrasi-guru.html' },
         { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: 'pages/data-statistik.html' },
         { id: 'e-portal', label: 'e-Portal', icon: '🔗', url: 'pages/e-portal.html' },
         { id: 'data-master', label: 'Data Master', icon: '🗂️', url: 'pages/data-master.html' }
       );
-    } else if (normalizedRole === 'wali_kelas') {
+    } else if (normalizedRole === 'wali_kelas' || normalizedRole === 'guru_mapel') {
+      // BERLAKU ADIL: Guru Mapel dan Wali Kelas mendapat akses SAMA PERSIS
       features.push(
         { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: 'pages/administrasi-guru.html' },
-        { id: 'data-statistik', label: 'Data Statistik', icon: '', url: 'pages/data-statistik.html' }
-      );
-    } else if (normalizedRole === 'guru_mapel') {
-      features.push(
-        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '', url: 'pages/administrasi-guru.html' },
-        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: 'pages/e-dokumen.html' }
+        { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: 'pages/data-statistik.html' },
+        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: 'pages/e-dokumen.html' },
+        { id: 'e-portal', label: 'e-Portal', icon: '🔗', url: 'pages/e-portal.html' }
       );
     } else if (normalizedRole === 'siswa') {
       features.push(
-        { id: 'jadwal', label: 'Jadwal', icon: '📅', url: 'dashboard.html#jadwal' },
+        { id: 'jadwal', label: 'Jadwal', icon: '', url: 'dashboard.html#jadwal' },
         { id: 'nilai', label: 'Nilai Saya', icon: '📝', url: 'dashboard.html#nilai' },
-        { id: 'materi', label: 'Materi', icon: '', url: 'dashboard.html#materi' }
+        { id: 'materi', label: 'Materi', icon: '📖', url: 'dashboard.html#materi' }
       );
     } else if (normalizedRole === 'orang_tua') {
       features.push(
-        { id: 'monitoring', label: 'Monitoring Anak', icon: '👨‍‍👧', url: 'dashboard.html#monitoring' }
+        { id: 'monitoring', label: 'Monitoring Anak', icon: '‍👩‍', url: 'dashboard.html#monitoring' }
       );
     }
 
