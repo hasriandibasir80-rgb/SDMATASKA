@@ -32,10 +32,22 @@
         <div class="search-bar">
           <input type="text" placeholder="Cari sub-fitur...">
         </div>
-        <div class="top-bar-actions">
-          <button class="icon-btn">🔔</button>
-          <div class="date-display" id="date-display">-</div>
-        </div>
+       <div class="top-bar-actions">
+  <button class="icon-btn">🔔</button>
+  <div class="date-display" id="date-display">-</div>
+  
+  <div class="user-dropdown">
+    <button class="user-avatar-btn" id="user-avatar-btn">
+      <span class="avatar-circle" id="topbar-avatar">T</span>
+    </button>
+    <div class="dropdown-menu" id="user-dropdown-menu">
+      <a href="../dashboard.html#profil" id="btn-profil">👤 Profil Saya</a>
+      <a href="../dashboard.html#pengaturan" id="btn-pengaturan">⚙️ Pengaturan</a>
+      <hr>
+      <a href="#" id="btn-logout" class="text-danger">🚪 Keluar</a>
+    </div>
+  </div>
+</div>
       </header>
 
       <div class="content-area">
