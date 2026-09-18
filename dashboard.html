@@ -6,7 +6,6 @@
   <title>Dashboard - SDMATASKA</title>
   <link rel="stylesheet" href="css/layout/dashboard.css">
   <style>
-    /* Style khusus untuk form profil (inline agar tidak perlu file CSS baru) */
     .profil-container { display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
     .profil-container.active { display: block; }
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
@@ -25,6 +24,17 @@
     .btn-danger { background: #ef4444; color: white; }
     .btn-danger:hover { background: #dc2626; }
     .password-section { margin-top: 40px; padding-top: 20px; border-top: 2px solid #e2e8f0; }
+
+    /* CSS Dropdown yang sebelumnya hilang */
+    .user-dropdown { position: relative; margin-left: 15px; }
+    .user-avatar-btn { background: none; border: none; cursor: pointer; padding: 0; }
+    .avatar-circle { width: 36px; height: 36px; background: #3b82f6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1rem; }
+    .dropdown-menu { display: none; position: absolute; right: 0; top: 120%; background: white; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); min-width: 180px; z-index: 1000; overflow: hidden; border: 1px solid #e2e8f0; }
+    .dropdown-menu.show { display: block; }
+    .dropdown-menu a { display: block; padding: 12px 16px; color: #334155; text-decoration: none; font-size: 0.9rem; }
+    .dropdown-menu a:hover { background: #f1f5f9; }
+    .dropdown-menu hr { margin: 0; border: none; border-top: 1px solid #e2e8f0; }
+    .text-danger { color: #ef4444 !important; }
   </style>
 </head>
 <body>
@@ -70,9 +80,8 @@
       </header>
 
       <div class="content-area" id="content-area">
-        <!-- Welcome Section (Default) -->
         <div id="welcome-section" class="welcome-section">
-          <h1>Selamat datang kembali, <span id="welcome-name">User</span>! 👋</h1>
+          <h1>Selamat datang kembali, <span id="welcome-name">User</span>! </h1>
           <p id="school-badge">SDN 139 LAMANDA • Akreditasi A</p>
         </div>
 
@@ -80,282 +89,6 @@
           <p>Pilih menu di sidebar untuk memulai.</p>
         </div>
 
-        <!-- PROFIL USER SECTION (Baru) -->
-        <div id="profil-section" class="profil-container">
-          <h2 style="margin-bottom: 20px; color: #1e293b;">Profil Pengguna</h2>
-          <form id="profil-form">
-            <div class="form-grid">
-              <div class="form-group">
-                <label>Foto Profil (URL)</label>
-                <input type="text" id="prof-foto" placeholder="https://..." readonly>
-              </div>
-              <div class="form-group">
-                <label>Nama Lengkap</label>
-                <input type="text" id="prof-nama" readonly>
-              </div>
-              <div class="form-group">
-                <label>NIP</label>
-                <input type="text" id="prof-nip" readonly>
-              </div>
-              <div class="form-group">
-                <label>Nomor HP (WhatsApp)</label>
-                <input type="text" id="prof-nohp" readonly placeholder="08xxxxxxxxxx">
-              </div>
-              <div class="form-group">
-                <label>Nama Sekolah</label>
-                <input type="text" id="prof-sekolah" readonly>
-              </div>
-              <div class="form-group">
-                <label>NPSN</label>
-                <input type="text" id="prof-npsn" readonly>
-              </div>
-              <div class="form-group">
-                <label>Nama Kepala Sekolah</label>
-                <input type="text" id="prof-kepsek" readonly>
-              </div>
-              <div class="form-group">
-                <label>NIP Kepala Sekolah</label>
-                <input type="text" id="prof-nipkepsek" readonly>
-              </div>
-            </div>
-            
-            <div class="btn-group">
-              <button type="button" id="btn-edit-profil" class="btn btn-primary">✏️ Edit Profil</button>
-              <button type="button" id="btn-simpan-profil" class="btn btn-success">💾 Simpan Perubahan</button>
-              <button type="button" id="btn-batal-profil" class="btn btn-secondary" style="display: none;">❌ Batal</buttona>
-              <button type="button" id="btn-kembali-dashboard" class="btn btn-secondary">⬅️ Kembali ke Dashboard</button>
-            </div>
-          </form>
-
-          <div class="password-section">
-            <h3 style="margin-bottom: 15px; color: #1e293b;">Ganti Password</h3>
-            <div class="form-grid">
-              <div class="form-group">
-                <label>Password Lama</label>
-                <input type="password" id="pwd-lama">
-              </div>
-              <div class="form-group">
-                <label>Password Baru</label>
-                <input type="password" id="pwd-baru">
-              </div>
-              <div class="form-group">
-                <label>Konfirmasi Password Baru</label>
-                <input type="password" id="pwd-konfirmasi">
-              </div>
-            </div>
-            <div class="btn-group">
-              <button type="button" id="btn-kirim-otp" class="btn btn-primary">📱 Kirim OTP ke WhatsApp</button>
-              <div class="form-group" id="otp-input-group" style="display: none; max-width: 200px;">
-                <label>Kode OTP</label>
-                <input type="text" id="pwd-otp" placeholder="6 digit">
-              </div>
-              <button type="button" id="btn-ganti-password" class="btn btn-danger" style="display: none;">🔒 Ganti Password</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <script type="module">
-    import { Sidebar } from './js/ui/sidebar.js';
-    import { ProfileManager } from './js/auth/profile-manager.js';
-    
-    new Sidebar();
-    const profileManager = new ProfileManager();
-    const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
-    
-    // Auto-fill header
-    if (currentUser.nama) {
-      document.getElementById('user-name').textContent = currentUser.nama;
-      document.getElementById('welcome-name').textContent = currentUser.nama;
-      document.getElementById('user-avatar').textContent = currentUser.nama.charAt(0).toUpperCase();
-      document.getElementById('topbar-avatar').textContent = currentUser.nama.charAt(0).toUpperCase();
-    }
-    if (currentUser.role) document.getElementById('user-role').textContent = currentUser.role.replace('_', ' ').toUpperCase();
-    if (currentUser.nama_sekolah) {
-      document.getElementById('school-info').textContent = currentUser.nama_sekolah;
-      document.getElementById('school-badge').textContent = `${currentUser.nama_sekolah} • NPSN: ${currentUser.npsn}`;
-    }
-
-    const today = new Date();
-    document.getElementById('date-display').textContent = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-
-    // Dropdown Logic
-    const avatarBtn = document.getElementById('user-avatar-btn');
-    const dropdownMenu = document.getElementById('user-dropdown-menu');
-    avatarBtn?.addEventListener('click', (e) => { e.stopPropagation(); dropdownMenu.classList.toggle('show'); });
-    document.addEventListener('click', () => dropdownMenu.classList.remove('show'));
-
-    document.getElementById('btn-logout')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (confirm('Apakah Anda yakin ingin keluar?')) {
-        sessionStorage.removeItem('currentUser');
-        window.location.href = 'index.html';
-      }
-    });
-
-    document.getElementById('menu-toggle')?.addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('active');
-    });
-
-    // --- LOGIKA PROFIL USER ---
-    document.getElementById('btn-profil')?.addEventListener('click', async (e) => {
-      e.preventDefault();
-      document.getElementById('welcome-section').style.display = 'none';
-      document.getElementById('dynamic-content').style.display = 'none';
-      document.getElementById('profil-section').classList.add('active');
-      await profileManager.loadProfileToForm();
-    });
-
-    document.getElementById('btn-kembali-dashboard')?.addEventListener('click', () => {
-      document.getElementById('profil-section').classList.remove('active');
-      document.getElementById('welcome-section').style.display = 'block';
-      document.getElementById('dynamic-content').style.display = 'block';
-    });
-
-    document.getElementById('btn-edit-profil')?.addEventListener('click', () => {
-      document.getElementById('prof-nama').readOnly = false;
-      document.getElementById('prof-nip').readOnly = false;
-      document.getElementById('prof-nohp').readOnly = false;
-      document.getElementById('btn-edit-profil').style.display = 'none';
-      document.getElementById('btn-simpan-profil').style.display = 'inline-block';
-      document.getElementById('btn-batal-profil').style.display = 'inline-block';
-    });
-
-    document.getElementById('btn-batal-profil')?.addEventListener('click', async () => {
-      document.getElementById('prof-nama').readOnly = true;
-      document.getElementById('prof-nip').readOnly = true;
-      document.getElementById('prof-nohp').readOnly = true;
-      document.getElementById('btn-edit-profil').style.display = 'inline-block';
-      document.getElementById('btn-simpan-profil').style.display = 'none';
-      document.getElementById('btn-batal-profil').style.display = 'none';
-      await profileManager.loadProfileToForm(); // Reset nilai
-    });
-
-    document.getElementById('btn-simpan-profil')?.addEventListener('click', async () => {
-      const formData = {
-        nama: document.getElementById('prof-nama').value,
-        nip: document.getElementById('prof-nip').value,
-        no_hp: document.getElementById('prof-nohp').value
-      };
-      await profileManager.saveProfileData(formData);
-    });
-
-    // --- LOGIKA GANTI PASSWORD DENGAN OTP ---
-    document.getElementById('btn-kirim-otp')?.addEventListener('click', async () => {
-      const noHp = document.getElementById('prof-nohp').value;
-      if (!noHp) { alert('Nomor HP belum diisi di profil!'); return; }
-      await profileManager.requestWhatsAppOtp(noHp);
-    });
-
-    document.getElementById('btn-ganti-password')?.addEventListener('click', async () => {
-      const pwdLama = document.getElementById('pwd-lama').value;
-      const pwdBaru = document.getElementById('pwd-baru').value;
-      const pwdKonfirmasi = document.getElementById('pwd-konfirmasi').value;
-      const otpInput = document.getElementById('pwd-otp').value;
-
-      if (pwdBaru !== pwdKonfirmasi) { alert('Password baru tidak cocok!'); return; }
-      if (pwdBaru.length < 6) { alert('Password minimal 6 karakter!'); return; }
-
-      await profileManager.changePasswordWithOtp(pwdLama, pwdBaru, otpInput);
-    });
-  </script>
-</body>
-</html
-</think>
-
-Baik, saya telah menganalisis kedua file yang Anda kirim. Sesuai **Aturan #2** (jangan hilangkan fungsionalitas lama) dan **Aturan #12** (tepat sasaran), saya akan memberikan file lengkap yang sudah diintegrasikan dengan fitur Profil User, termasuk field **No HP**, tombol **Edit/Simpan/Kembali**, dan logika **Ganti Password dengan OTP WhatsApp** (dengan simulasi untuk development).
-
-Berikut adalah 2 file lengkap yang perlu Anda update:
-
-### 1. File Lengkap: `dashboard.html`
-Saya menambahkan section `#profil-section` yang tersembunyi secara default, dan logika untuk menampilkannya saat tombol "Profil Saya" diklik.
-
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - SDMATASKA</title>
-  <link rel="stylesheet" href="css/layout/dashboard.css">
-  <style>
-    /* Style khusus untuk form profil (inline agar tidak perlu file CSS baru) */
-    .profil-container { display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    .profil-container.active { display: block; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
-    .form-group { display: flex; flex-direction: column; }
-    .form-group label { font-weight: 600; margin-bottom: 8px; color: #475569; font-size: 0.9rem; }
-    .form-group input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; }
-    .form-group input:read-only { background-color: #f1f5f9; color: #64748b; cursor: not-allowed; }
-    .btn-group { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-    .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
-    .btn-primary { background: #3b82f6; color: white; }
-    .btn-primary:hover { background: #2563eb; }
-    .btn-secondary { background: #64748b; color: white; }
-    .btn-secondary:hover { background: #475569; }
-    .btn-success { background: #10b981; color: white; display: none; }
-    .btn-success:hover { background: #059669; }
-    .btn-danger { background: #ef4444; color: white; }
-    .btn-danger:hover { background: #dc2626; }
-    .password-section { margin-top: 40px; padding-top: 20px; border-top: 2px solid #e2e8f0; }
-  </style>
-</head>
-<body>
-  <div class="dashboard-container">
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <h2>SDMATASKA</h2>
-        <div class="user-info">
-          <div class="user-avatar" id="user-avatar">A</div>
-          <div class="user-details">
-            <p class="user-name" id="user-name">Loading...</p>
-            <p class="user-role" id="user-role">-</p>
-          </div>
-        </div>
-      </div>
-      <nav class="sidebar-menu" id="sidebar-menu"></nav>
-      <div class="sidebar-footer">
-        <p class="school-info" id="school-info">-</p>
-      </div>
-    </aside>
-
-    <main class="main-content">
-      <header class="top-bar">
-        <button class="menu-toggle" id="menu-toggle">☰</button>
-        <div class="search-bar">
-          <input type="text" placeholder="Cari data, siswa, guru...">
-        </div>
-        <div class="top-bar-actions">
-          <button class="icon-btn">🔔</button>
-          <div class="date-display" id="date-display">-</div>
-          <div class="user-dropdown">
-            <button class="user-avatar-btn" id="user-avatar-btn">
-              <span class="avatar-circle" id="topbar-avatar">A</span>
-            </button>
-            <div class="dropdown-menu" id="user-dropdown-menu">
-              <a href="#" id="btn-profil">👤 Profil Saya</a>
-              <a href="#" id="btn-pengaturan">⚙️ Pengaturan</a>
-              <hr>
-              <a href="#" id="btn-logout" class="text-danger">🚪 Keluar</a>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div class="content-area" id="content-area">
-        <!-- Welcome Section (Default) -->
-        <div id="welcome-section" class="welcome-section">
-          <h1>Selamat datang kembali, <span id="welcome-name">User</span>! 👋</h1>
-          <p id="school-badge">SDN 139 LAMANDA • Akreditasi A</p>
-        </div>
-
-        <div id="dynamic-content">
-          <p>Pilih menu di sidebar untuk memulai.</p>
-        </div>
-
-        <!-- PROFIL USER SECTION (Baru) -->
         <div id="profil-section" class="profil-container">
           <h2 style="margin-bottom: 20px; color: #1e293b;">Profil Pengguna</h2>
           <form id="profil-form">
@@ -440,7 +173,6 @@ Saya menambahkan section `#profil-section` yang tersembunyi secara default, dan 
     const profileManager = new ProfileManager();
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
     
-    // Auto-fill header
     if (currentUser.nama) {
       document.getElementById('user-name').textContent = currentUser.nama;
       document.getElementById('welcome-name').textContent = currentUser.nama;
@@ -456,7 +188,6 @@ Saya menambahkan section `#profil-section` yang tersembunyi secara default, dan 
     const today = new Date();
     document.getElementById('date-display').textContent = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
 
-    // Dropdown Logic
     const avatarBtn = document.getElementById('user-avatar-btn');
     const dropdownMenu = document.getElementById('user-dropdown-menu');
     avatarBtn?.addEventListener('click', (e) => { e.stopPropagation(); dropdownMenu.classList.toggle('show'); });
@@ -474,13 +205,17 @@ Saya menambahkan section `#profil-section` yang tersembunyi secara default, dan 
       document.getElementById('sidebar').classList.toggle('active');
     });
 
-    // --- LOGIKA PROFIL USER ---
     document.getElementById('btn-profil')?.addEventListener('click', async (e) => {
       e.preventDefault();
       document.getElementById('welcome-section').style.display = 'none';
       document.getElementById('dynamic-content').style.display = 'none';
       document.getElementById('profil-section').classList.add('active');
       await profileManager.loadProfileToForm();
+    });
+
+    document.getElementById('btn-pengaturan')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Fitur Pengaturan Umum akan ditambahkan pada Tahap 8 (Polishing).');
     });
 
     document.getElementById('btn-kembali-dashboard')?.addEventListener('click', () => {
@@ -505,7 +240,7 @@ Saya menambahkan section `#profil-section` yang tersembunyi secara default, dan 
       document.getElementById('btn-edit-profil').style.display = 'inline-block';
       document.getElementById('btn-simpan-profil').style.display = 'none';
       document.getElementById('btn-batal-profil').style.display = 'none';
-      await profileManager.loadProfileToForm(); // Reset nilai
+      await profileManager.loadProfileToForm();
     });
 
     document.getElementById('btn-simpan-profil')?.addEventListener('click', async () => {
@@ -517,7 +252,6 @@ Saya menambahkan section `#profil-section` yang tersembunyi secara default, dan 
       await profileManager.saveProfileData(formData);
     });
 
-    // --- LOGIKA GANTI PASSWORD DENGAN OTP ---
     document.getElementById('btn-kirim-otp')?.addEventListener('click', async () => {
       const noHp = document.getElementById('prof-nohp').value;
       if (!noHp) { alert('Nomor HP belum diisi di profil!'); return; }
