@@ -90,6 +90,29 @@
     document.getElementById('menu-toggle')?.addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('active');
     });
+    // Logic Dropdown Avatar
+const avatarBtn = document.getElementById('user-avatar-btn');
+const dropdownMenu = document.getElementById('user-dropdown-menu');
+const topbarAvatar = document.getElementById('topbar-avatar');
+
+if (currentUser.nama) {
+  topbarAvatar.textContent = currentUser.nama.charAt(0).toUpperCase();
+}
+
+avatarBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  dropdownMenu.classList.toggle('show');
+});
+
+document.addEventListener('click', () => dropdownMenu.classList.remove('show'));
+
+document.getElementById('btn-logout')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (confirm('Apakah Anda yakin ingin keluar?')) {
+    sessionStorage.removeItem('currentUser');
+    window.location.href = 'index.html';
+  }
+});
   </script>
 </body>
 </html>
