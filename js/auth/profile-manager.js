@@ -10,13 +10,12 @@ export class ProfileManager {
 
   getCurrentUser() {
     return this.currentUser;
-    }
+  }
 
   async loadProfileToForm() {
     if (!this.currentUser || !this.currentUser.uid) return;
 
     try {
-      // Ambil data terbaru dari nested collection untuk memastikan data fresh
       const userRef = doc(db, 'schools', this.currentUser.npsn, 'users', this.currentUser.uid);
       const userSnap = await getDoc(userRef);
       
@@ -44,7 +43,6 @@ export class ProfileManager {
       const userRef = doc(db, 'schools', this.currentUser.npsn, 'users', this.currentUser.uid);
       const rootUserRef = doc(db, 'users', this.currentUser.uid);
 
-      // Update nested collection
       await updateDoc(userRef, {
         nama: formData.nama,
         nip: formData.nip,
@@ -52,20 +50,17 @@ export class ProfileManager {
         updated_at: new Date().toISOString()
       });
 
-      // Update root reference (penting untuk login cepat)
       await updateDoc(rootUserRef, {
         nama: formData.nama,
         nip: formData.nip,
         no_hp: formData.no_hp
       });
 
-      // Update sessionStorage agar UI langsung refresh
       this.currentUser.nama = formData.nama;
       this.currentUser.nip = formData.nip;
       this.currentUser.no_hp = formData.no_hp;
       sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser));
 
-      // Reset form ke mode read-only
       document.getElementById('prof-nama').readOnly = true;
       document.getElementById('prof-nip').readOnly = true;
       document.getElementById('prof-nohp').readOnly = true;
@@ -74,7 +69,7 @@ export class ProfileManager {
       document.getElementById('btn-batal-profil').style.display = 'none';
 
       alert("Profil berhasil diperbarui!");
-      location.reload(); // Reload untuk refresh header nama
+      location.reload();
     } catch (error) {
       console.error("Gagal menyimpan profil:", error);
       alert("Gagal menyimpan perubahan. Periksa koneksi Anda.");
@@ -82,20 +77,12 @@ export class ProfileManager {
   }
 
   async requestWhatsAppOtp(noHp) {
-    // Generate OTP 6 digit acak
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    
-    // Simpan OTP di sessionStorage untuk verifikasi (kadaluarsa 5 menit)
     sessionStorage.setItem('temp_otp', otp);
     sessionStorage.setItem('temp_otp_time', Date.now());
 
-    // SIMULASI PENGIRIMAN WHATSAPP
-    // CATATAN PENGEMBANG: Di produksi, ganti blok ini dengan fetch API ke layanan seperti Fonnte/Wablas
-    // Contoh: await fetch('https://api.fonnte.com/send', { method: 'POST', body: JSON.stringify({ target: noHp, message: `Kode OTP Anda: ${otp}` }) })
-    
     alert(`[SIMULASI WhatsApp]\n\nKode OTP Anda adalah: ${otp}\n\n(Di produksi, kode ini akan dikirim ke ${noHp})`);
     
-    // Tampilkan input OTP dan tombol ganti password
     document.getElementById('otp-input-group').style.display = 'flex';
     document.getElementById('btn-ganti-password').style.display = 'inline-block';
   }
@@ -105,33 +92,26 @@ export class ProfileManager {
     const storedOtp = sessionStorage.getItem('temp_otp');
     const otpTime = parseInt(sessionStorage.getItem('temp_otp_time') || '0');
 
-    // 1. Validasi Waktu OTP (5 menit)
     if (Date.now() - otpTime > 300000) {
       alert("Kode OTP telah kedaluwarsa. Silakan minta kode baru.");
       return;
     }
 
-    // 2. Validasi Kode OTP
     if (otpInput !== storedOtp) {
       alert("Kode OTP salah!");
       return;
     }
 
     try {
-      // 3. Re-authenticate user (wajib Firebase sebelum ganti password)
-      const credential = EmailAuthProvider.credential(user.email, pwdLamals);
+      const credential = EmailAuthProvider.credential(user.email, pwdLama);
       await reauthenticateWithCredential(user, credential);
-
-      // 4. Update Password
       await updatePassword(user, pwdBaru);
 
-      // 5. Bersihkan OTP
       sessionStorage.removeItem('temp_otp');
       sessionStorage.removeItem('temp_otp_time');
 
       alert("Password berhasil diganti!");
       
-      // Reset form password
       document.getElementById('pwd-lama').value = '';
       document.getElementById('pwd-baru').value = '';
       document.getElementById('pwd-konfirmasi').value = '';
@@ -149,7 +129,6 @@ export class ProfileManager {
     }
   }
 
-  // Fungsi lama dipertahankan untuk kompatibilitas (Aturan #2)
   autoFillForm(nameId, nipId) {
     if (!this.currentUser) return;
     const nameInput = document.getElementById(nameId);
