@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Statistik - SDMATASKA</title>
+  <link rel="stylesheet" href="../css/layout/dashboard.css">
+  <link rel="stylesheet" href="../css/components/feature-grid.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>SDMATASKA</h2>
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">A</div>
+          <div class="user-details">
+            <p class="user-name" id="user-name">Loading...</p>
+            <p class="user-role" id="user-role">-</p>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-menu" id="sidebar-menu"></nav>
+      <div class="sidebar-footer">
+        <p class="school-info" id="school-info">-</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <button class="menu-toggle" id="menu-toggle">☰</button>
+        <div class="search-bar">
+          <input type="text" placeholder="Cari sub-fitur...">
+        </div>
+        <div class="top-bar-actions">
+          <button class="icon-btn">🔔</button>
+          <div class="date-display" id="date-display">-</div>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <div class="page-header">
+          <h1>Data Statistik 📈</h1>
+          <p>Analisis data dan monitoring perkembangan sekolah</p>
+        </div>
+        <div class="feature-grid" id="feature-grid"></div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { Sidebar } from '../js/ui/sidebar.js';
+    
+    new Sidebar();
+
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+    if (currentUser.nama) {
+      document.getElementById('user-name').textContent = currentUser.nama;
+      document.getElementById('user-avatar').textContent = currentUser.nama.charAt(0).toUpperCase();
+    }
+    if (currentUser.role) {
+      document.getElementById('user-role').textContent = currentUser.role.replace('_', ' ').toUpperCase();
+    }
+    if (currentUser.nama_sekolah) {
+      document.getElementById('school-info').textContent = currentUser.nama_sekolah;
+    }
+
+    const today = new Date();
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    document.getElementById('date-display').textContent = today.toLocaleDateString('id-ID', options);
+
+    const subFeatures = [
+      { id: 'statistik-gtk', name: 'Statistik GTK', icon: '👨‍🏫', desc: 'Statistik Guru, Tenaga Kependidikan', status: 'active' },
+      { id: 'monitoring', name: 'Monitoring', icon: '', desc: 'Monitoring perkembangan siswa dan sekolah', status: 'active' },
+      { id: 'bantuan-ai', name: 'Bantuan AI', icon: '🤖', desc: 'Asisten AI untuk analisis data', status: 'coming-soon' },
+      { id: 'grafik-perkembangan', name: 'Grafik Perkembangan', icon: '📈', desc: 'Visualisasi perkembangan siswa', status: 'coming-soon' },
+      { id: 'rekap-absensi', name: 'Rekap Absensi', icon: '✅', desc: 'Rekapitulasi absensi seluruh siswa', status: 'coming-soon' }
+    ];
+
+    const gridContainer = document.getElementById('feature-grid');
+    subFeatures.forEach(feature => {
+      const card = document.createElement('div');
+      card.className = `feature-card ${feature.status}`;
+      card.innerHTML = `
+        <div class="card-icon">${feature.icon}</div>
+        <h3>${feature.name}</h3>
+        <p>${feature.desc}</p>
+        ${feature.status === 'active' 
+          ? `<a href="../js/modules/data-statistik/${feature.id}.html" class="card-btn">Buka</a>`
+          : `<span class="card-badge">Coming Soon</span>`
+        }
+      `;
+      gridContainer.appendChild(card);
+    });
+
+    document.getElementById('menu-toggle')?.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
