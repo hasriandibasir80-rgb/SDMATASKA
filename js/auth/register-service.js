@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const uid = userCredential.user.uid;
 
+        // 1. Simpan Data Sekolah (Merge)
         await setDoc(doc(db, 'schools', npsn), {
           npsn: npsn,
           nama_sekolah: namaSekolah,
@@ -33,6 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
           nip_kepsek: nipKepsek
         }, { merge: true });
 
+        // 2. Simpan Referensi di Root (PENTING: Agar login cepat tanpa collectionGroup)
+        await setDoc(doc(db, 'users', uid), {
+          uid: uid,
+          email: email,
+          role: jabatan, // Simpan role di root untuk pengecekan cepat
+          school_id: npsn, // Simpan school_id untuk routing
+          nama: nama
+        });
+
+        // 3. Simpan Data Lengkap di Nested Collection
         await setDoc(doc(db, 'schools', npsn, 'users', uid), {
           uid: uid,
           email: email,
@@ -54,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let msg = 'Terjadi kesalahan saat registrasi.';
         if (error.code === 'auth/email-already-in-use') msg = 'Email sudah terdaftar.';
         if (error.code === 'auth/weak-password') msg = 'Password minimal 6 karakter.';
-        if (error.code === 'auth/invalid-email') msg = 'Format email tidak valid.';
         alert(msg);
       } finally {
         if (loading) loading.classList.remove('active');
