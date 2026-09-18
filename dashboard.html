@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - SDMATASKA</title>
-  <link rel="stylesheet" href="css/core/reset.css">
   <link rel="stylesheet" href="css/layout/dashboard.css">
 </head>
 <body>
@@ -21,9 +20,7 @@
           </div>
         </div>
       </div>
-      <nav class="sidebar-menu" id="sidebar-menu">
-        <!-- Menu akan di-render oleh sidebar.js -->
-      </nav>
+      <nav class="sidebar-menu" id="sidebar-menu"></nav>
       <div class="sidebar-footer">
         <p class="school-info" id="school-info">-</p>
       </div>
@@ -39,20 +36,29 @@
         </div>
         <div class="top-bar-actions">
           <button class="icon-btn">🔔</button>
-          <button class="icon-btn">💬</button>
           <div class="date-display" id="date-display">-</div>
+          
+          <div class="user-dropdown">
+            <button class="user-avatar-btn" id="user-avatar-btn">
+              <span class="avatar-circle" id="topbar-avatar">A</span>
+            </button>
+            <div class="dropdown-menu" id="user-dropdown-menu">
+              <a href="#" id="btn-profil">👤 Profil Saya</a>
+              <a href="#" id="btn-pengaturan">️ Pengaturan</a>
+              <hr>
+              <a href="#" id="btn-logout" class="text-danger">🚪 Keluar</a>
+            </div>
+          </div>
         </div>
       </header>
 
       <!-- Content Area -->
       <div class="content-area" id="content-area">
-        <!-- Konten dinamis akan dimuat di sini berdasarkan hash URL -->
         <div class="welcome-section">
           <h1>Selamat datang kembali, <span id="welcome-name">User</span>! 👋</h1>
           <p id="school-badge">SDN 139 LAMANDA • Akreditasi A</p>
         </div>
 
-        <!-- Placeholder untuk section dinamis -->
         <div id="dynamic-content">
           <p>Pilih menu di sidebar untuk memulai.</p>
         </div>
@@ -63,56 +69,51 @@
   <script type="module">
     import { Sidebar } from './js/ui/sidebar.js';
     
-    // Inisialisasi sidebar
     new Sidebar();
 
-    // Auto-fill profil user
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+    
     if (currentUser.nama) {
       document.getElementById('user-name').textContent = currentUser.nama;
       document.getElementById('welcome-name').textContent = currentUser.nama;
       document.getElementById('user-avatar').textContent = currentUser.nama.charAt(0).toUpperCase();
+      document.getElementById('topbar-avatar').textContent = currentUser.nama.charAt(0).toUpperCase();
     }
+    
     if (currentUser.role) {
       document.getElementById('user-role').textContent = currentUser.role.replace('_', ' ').toUpperCase();
     }
+    
     if (currentUser.nama_sekolah) {
       document.getElementById('school-info').textContent = currentUser.nama_sekolah;
       document.getElementById('school-badge').textContent = `${currentUser.nama_sekolah} • NPSN: ${currentUser.npsn}`;
     }
 
-    // Display tanggal
     const today = new Date();
     const options = { day: 'numeric', month: 'short', year: 'numeric' };
     document.getElementById('date-display').textContent = today.toLocaleDateString('id-ID', options);
 
-    // Toggle sidebar untuk mobile
+    const avatarBtn = document.getElementById('user-avatar-btn');
+    const dropdownMenu = document.getElementById('user-dropdown-menu');
+
+    avatarBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', () => dropdownMenu.classList.remove('show'));
+
+    document.getElementById('btn-logout')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirm('Apakah Anda yakin ingin keluar?')) {
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'index.html';
+      }
+    });
+
     document.getElementById('menu-toggle')?.addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('active');
     });
-    // Logic Dropdown Avatar
-const avatarBtn = document.getElementById('user-avatar-btn');
-const dropdownMenu = document.getElementById('user-dropdown-menu');
-const topbarAvatar = document.getElementById('topbar-avatar');
-
-if (currentUser.nama) {
-  topbarAvatar.textContent = currentUser.nama.charAt(0).toUpperCase();
-}
-
-avatarBtn?.addEventListener('click', (e) => {
-  e.stopPropagation();
-  dropdownMenu.classList.toggle('show');
-});
-
-document.addEventListener('click', () => dropdownMenu.classList.remove('show'));
-
-document.getElementById('btn-logout')?.addEventListener('click', (e) => {
-  e.preventDefault();
-  if (confirm('Apakah Anda yakin ingin keluar?')) {
-    sessionStorage.removeItem('currentUser');
-    window.location.href = 'index.html';
-  }
-});
   </script>
 </body>
 </html>
