@@ -2,17 +2,19 @@ import { AppConfig } from '../config/app-config.js';
 
 export class RoleRouter {
   constructor() {
+    // Semua role diarahkan ke dashboard.html universal (v4.1)
+    // Sidebar akan merender menu berbeda berdasarkan role
     this.routes = {
-      [AppConfig.ROLES.SUPER_ADMIN]: 'dashboard-admin.html',
-      [AppConfig.ROLES.KEPALA_SEKOLAH]: 'dashboard-kepsek.html',
-      [AppConfig.ROLES.ADMIN_SEKOLAH]: 'dashboard-admin.html',
-      [AppConfig.ROLES.GURU_KELAS]: 'dashboard-guru.html',
-      [AppConfig.ROLES.GURU_MAPEL]: 'dashboard-guru.html',
-      [AppConfig.ROLES.TENDIK]: 'dashboard-tu.html',
-      [AppConfig.ROLES.STAF_TU]: 'dashboard-tu.html',
-      [AppConfig.ROLES.WALI_KELAS]: 'dashboard-wali-kelas.html',
-      [AppConfig.ROLES.SISWA]: 'dashboard-siswa.html',
-      [AppConfig.ROLES.ORANG_TUA]: 'dashboard-ortu.html'
+      [AppConfig.ROLES.SUPER_ADMIN]: 'dashboard.html',
+      [AppConfig.ROLES.KEPALA_SEKOLAH]: 'dashboard.html',
+      [AppConfig.ROLES.ADMIN_SEKOLAH]: 'dashboard.html',
+      [AppConfig.ROLES.GURU_KELAS]: 'dashboard.html',
+      [AppConfig.ROLES.GURU_MAPEL]: 'dashboard.html',
+      [AppConfig.ROLES.TENDIK]: 'dashboard.html',
+      [AppConfig.ROLES.STAF_TU]: 'dashboard.html',
+      [AppConfig.ROLES.WALI_KELAS]: 'dashboard.html',
+      [AppConfig.ROLES.SISWA]: 'dashboard.html',
+      [AppConfig.ROLES.ORANG_TUA]: 'dashboard.html'
     };
   }
 
