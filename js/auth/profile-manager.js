@@ -1,49 +1,184 @@
-import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { getAuth, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { db } from '../config/service-firebase.js';
 
 export class ProfileManager {
   constructor() {
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+    this.auth = getAuth();
   }
 
-  // Mengambil data profil user yang sedang login
   getCurrentUser() {
     return this.currentUser;
+    }
+
+  async loadProfileToForm() {
+    if (!this.currentUser || !this.currentUser.uid) return;
+
+    try {
+      // Ambil data terbaru dari nested collection untuk memastikan data fresh
+      const userRef = doc(db, 'schools', this.currentUser.npsn, 'users', this.currentUser.uid);
+      const userSnap = await getDoc(userRef);
+      
+      if (userSnap.exists()) {
+        const data = userSnap.data();
+        document.getElementById('prof-foto').value = data.foto_url || '';
+        document.getElementById('prof-nama').value = data.nama || '';
+        document.getElementById('prof-nip').value = data.nip || '';
+        document.getElementById('prof-nohp').value = data.no_hp || '';
+        document.getElementById('prof-sekolah').value = data.nama_sekolah || '';
+        document.getElementById('prof-npsn').value = data.npsn || '';
+        document.getElementById('prof-kepsek').value = data.nama_kepsek || '-';
+        document.getElementById('prof-nipkepsek').value = data.nip_kepsek || '-';
+      }
+    } catch (error) {
+      console.error("Gagal memuat profil:", error);
+      alert("Gagal memuat data profil.");
+    }
   }
 
-  // Fungsi untuk auto-fill form berdasarkan ID elemen input
+  async saveProfileData(formData) {
+    if (!this.currentUser || !this.currentUser.uid) return;
+
+    try {
+      const userRef = doc(db, 'schools', this.currentUser.npsn, 'users', this.currentUser.uid);
+      const rootUserRef = doc(db, 'users', this.currentUser.uid);
+
+      // Update nested collection
+      await updateDoc(userRef, {
+        nama: formData.nama,
+        nip: formData.nip,
+        no_hp: formData.no_hp,
+        updated_at: new Date().toISOString()
+      });
+
+      // Update root reference (penting untuk login cepat)
+      await updateDoc(rootUserRef, {
+        nama: formData.nama,
+        nip: formData.nip,
+        no_hp: formData.no_hp
+      });
+
+      // Update sessionStorage agar UI langsung refresh
+      this.currentUser.nama = formData.nama;
+      this.currentUser.nip = formData.nip;
+      this.currentUser.no_hp = formData.no_hp;
+      sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+
+      // Reset form ke mode read-only
+      document.getElementById('prof-nama').readOnly = true;
+      document.getElementById('prof-nip').readOnly = true;
+      document.getElementById('prof-nohp').readOnly = true;
+      document.getElementById('btn-edit-profil').style.display = 'inline-block';
+      document.getElementById('btn-simpan-profil').style.display = 'none';
+      document.getElementById('btn-batal-profil').style.display = 'none';
+
+      alert("Profil berhasil diperbarui!");
+      location.reload(); // Reload untuk refresh header nama
+    } catch (error) {
+      console.error("Gagal menyimpan profil:", error);
+      alert("Gagal menyimpan perubahan. Periksa koneksi Anda.");
+    }
+  }
+
+  async requestWhatsAppOtp(noHp) {
+    // Generate OTP 6 digit acak
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    // Simpan OTP di sessionStorage untuk verifikasi (kadaluarsa 5 menit)
+    sessionStorage.setItem('temp_otp', otp);
+    sessionStorage.setItem('temp_otp_time', Date.now());
+
+    // SIMULASI PENGIRIMAN WHATSAPP
+    // CATATAN PENGEMBANG: Di produksi, ganti blok ini dengan fetch API ke layanan seperti Fonnte/Wablas
+    // Contoh: await fetch('https://api.fonnte.com/send', { method: 'POST', body: JSON.stringify({ target: noHp, message: `Kode OTP Anda: ${otp}` }) })
+    
+    alert(`[SIMULASI WhatsApp]\n\nKode OTP Anda adalah: ${otp}\n\n(Di produksi, kode ini akan dikirim ke ${noHp})`);
+    
+    // Tampilkan input OTP dan tombol ganti password
+    document.getElementById('otp-input-group').style.display = 'flex';
+    document.getElementById('btn-ganti-password').style.display = 'inline-block';
+  }
+
+  async changePasswordWithOtp(pwdLama, pwdBaru, otpInput) {
+    const user = this.auth.currentUser;
+    const storedOtp = sessionStorage.getItem('temp_otp');
+    const otpTime = parseInt(sessionStorage.getItem('temp_otp_time') || '0');
+
+    // 1. Validasi Waktu OTP (5 menit)
+    if (Date.now() - otpTime > 300000) {
+      alert("Kode OTP telah kedaluwarsa. Silakan minta kode baru.");
+      return;
+    }
+
+    // 2. Validasi Kode OTP
+    if (otpInput !== storedOtp) {
+      alert("Kode OTP salah!");
+      return;
+    }
+
+    try {
+      // 3. Re-authenticate user (wajib Firebase sebelum ganti password)
+      const credential = EmailAuthProvider.credential(user.email, pwdLamals);
+      await reauthenticateWithCredential(user, credential);
+
+      // 4. Update Password
+      await updatePassword(user, pwdBaru);
+
+      // 5. Bersihkan OTP
+      sessionStorage.removeItem('temp_otp');
+      sessionStorage.removeItem('temp_otp_time');
+
+      alert("Password berhasil diganti!");
+      
+      // Reset form password
+      document.getElementById('pwd-lama').value = '';
+      document.getElementById('pwd-baru').value = '';
+      document.getElementById('pwd-konfirmasi').value = '';
+      document.getElementById('pwd-otp').value = '';
+      document.getElementById('otp-input-group').style.display = 'none';
+      document.getElementById('btn-ganti-password').style.display = 'none';
+
+    } catch (error) {
+      console.error("Gagal ganti password:", error);
+      if (error.code === 'auth/wrong-password') {
+        alert("Password lama yang Anda masukkan salah.");
+      } else {
+        alert("Gagal mengganti password. Silakan coba lagi.");
+      }
+    }
+  }
+
+  // Fungsi lama dipertahankan untuk kompatibilitas (Aturan #2)
   autoFillForm(nameId, nipId) {
     if (!this.currentUser) return;
-
     const nameInput = document.getElementById(nameId);
     const nipInput = document.getElementById(nipId);
-
     if (nameInput) nameInput.value = this.currentUser.nama || '';
     if (nipInput) nipInput.value = this.currentUser.nip || '';
   }
 
-  // Mengambil data Kepala Sekolah untuk Kop Persuratan
   async getKepsekData() {
     try {
-      // Asumsi: Ada dokumen 'settings' dengan ID 'school_profile' di Firestore
-      // yang berisi field: nama_kepsek dan nip_kepsek
-      const settingsDoc = await getDoc(doc(db, 'settings', 'school_profile'));
-      
-      if (settingsDoc.exists()) {
-        return settingsDoc.data();
+      const schoolRef = doc(db, 'schools', this.currentUser.npsn);
+      const schoolSnap = await getDoc(schoolRef);
+      if (schoolSnap.exists()) {
+        const data = schoolSnap.data();
+        return { 
+          nama_kepsek: data.nama_kepsek || 'Nama Kepala Sekolah', 
+          nip_kepsek: data.nip_kepsek || 'NIP Kepala Sekolah' 
+        };
       }
-      return { nama_kepsek: 'Nama Kepala Sekolah', nip_kepsek: 'NIP Kepala Sekolah' };
+      return { nama_kepsek: '-', nip_kepsek: '-' };
     } catch (error) {
       console.error("Gagal mengambil data Kepsek:", error);
       return { nama_kepsek: '-', nip_kepsek: '-' };
     }
   }
 
-  // Helper untuk generate Kop Surat (akan digunakan oleh kop-generator.js nanti)
   async generateKopData() {
     const user = this.getCurrentUser();
     const kepsek = await this.getKepsekData();
-    
     return {
       pembuat: user.nama,
       nip_pembuat: user.nip,
