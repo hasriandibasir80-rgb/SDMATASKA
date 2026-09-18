@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e-Portal - SDMATASKA</title>
+  <link rel="stylesheet" href="../css/layout/dashboard.css">
+  <link rel="stylesheet" href="../css/components/feature-grid.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>SDMATASKA</h2>
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">A</div>
+          <div class="user-details">
+            <p class="user-name" id="user-name">Loading...</p>
+            <p class="user-role" id="user-role">-</p>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-menu" id="sidebar-menu"></nav>
+      <div class="sidebar-footer">
+        <p class="school-info" id="school-info">-</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <button class="menu-toggle" id="menu-toggle">☰</button>
+        <div class="search-bar">
+          <input type="text" placeholder="Cari portal...">
+        </div>
+        <div class="top-bar-actions">
+          <button class="icon-btn"></button>
+          <div class="date-display" id="date-display">-</div>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <div class="page-header">
+          <h1>e-Portal 🔗</h1>
+          <p>Akses cepat ke portal eksternal pendidikan</p>
+        </div>
+        <div class="feature-grid" id="feature-grid"></div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { Sidebar } from '../js/ui/sidebar.js';
+    
+    new Sidebar();
+
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+    if (currentUser.nama) {
+      document.getElementById('user-name').textContent = currentUser.nama;
+      document.getElementById('user-avatar').textContent = currentUser.nama.charAt(0).toUpperCase();
+    }
+    if (currentUser.role) {
+      document.getElementById('user-role').textContent = currentUser.role.replace('_', ' ').toUpperCase();
+    }
+    if (currentUser.nama_sekolah) {
+      document.getElementById('school-info').textContent = currentUser.nama_sekolah;
+    }
+
+    const today = new Date();
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    document.getElementById('date-display').textContent = today.toLocaleDateString('id-ID', options);
+
+    const portalLinks = [
+      { id: 'simpkb', name: 'SIMPKB', icon: '‍🏫', desc: 'Sistem Informasi Manajemen Pengembangan Keprofesian Berkelanjutan', url: 'https://simpkb.id', status: 'active' },
+      { id: 'sindara', name: 'SINDARA', icon: '📚', desc: 'Sistem Informasi Data dan Referensi', url: '#', status: 'active' },
+      { id: 'simacca', name: 'SIMACCA', icon: '', desc: 'Sistem Informasi Manajemen Akreditasi', url: '#', status: 'active' },
+      { id: 'perpustakaan', name: 'Perpustakaan Digital', icon: '📖', desc: 'Akses perpustakaan digital sekolah', url: '#', status: 'coming-soon' }
+    ];
+
+    const gridContainer = document.getElementById('feature-grid');
+    portalLinks.forEach(portal => {
+      const card = document.createElement('div');
+      card.className = `feature-card ${portal.status}`;
+      card.innerHTML = `
+        <div class="card-icon">${portal.icon}</div>
+        <h3>${portal.name}</h3>
+        <p>${portal.desc}</p>
+        ${portal.status === 'active' 
+          ? `<a href="${portal.url}" target="_blank" class="card-btn">Buka Portal</a>`
+          : `<span class="card-badge">Coming Soon</span>`
+        }
+      `;
+      gridContainer.appendChild(card);
+    });
+
+    document.getElementById('menu-toggle')?.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
