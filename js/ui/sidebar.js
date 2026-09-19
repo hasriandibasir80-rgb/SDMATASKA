@@ -24,57 +24,55 @@ export class Sidebar {
   getFeaturesByRole() {
     const normalizedRole = this.getNormalizedRole();
     
-    // Deteksi lokasi saat ini untuk mengatur path yang benar (Root vs Pages)
     const isInsidePages = window.location.pathname.includes('/pages/');
-    const prefix = isInsidePages ? '' : 'pages/';
     const rootPrefix = isInsidePages ? '../' : '';
+    const pagePrefix = isInsidePages ? '' : 'pages/';
 
     const features = [
-      // Dashboard selalu mengarah ke root
-      { id: 'dashboard', label: 'Dashboard', icon: '', url: `${rootPrefix}dashboard.html` }
+      { id: 'dashboard', label: 'Dashboard', icon: '📊', url: rootPrefix + 'dashboard.html' }
     ];
 
     if (normalizedRole === 'super_admin') {
       features.push(
-        { id: 'approval', label: 'Approval User', icon: '✅', url: `${rootPrefix}dashboard.html#approval` },
-        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: `${prefix}e-dokumen.html` },
-        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: `${prefix}administrasi-guru.html` },
-        { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: `${prefix}data-statistik.html` },
-        { id: 'e-portal', label: 'e-Portal', icon: '🔗', url: `${prefix}e-portal.html` },
-        { id: 'data-master', label: 'Data Master', icon: '🗂️', url: `${prefix}data-master.html` }
+        { id: 'approval', label: 'Approval User', icon: '✅', url: rootPrefix + 'dashboard.html#approval' },
+        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: pagePrefix + 'e-dokumen.html' },
+        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '', url: pagePrefix + 'administrasi-guru.html' },
+        { id: 'data-statistik', label: 'Data Statistik', icon: '', url: pagePrefix + 'data-statistik.html' },
+        { id: 'e-portal', label: 'e-Portal', icon: '', url: pagePrefix + 'e-portal.html' },
+        { id: 'data-master', label: 'Data Master', icon: '🗂️', url: pagePrefix + 'data-master.html' }
       );
     } else if (normalizedRole === 'kepala_sekolah') {
       features.push(
-        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: `${prefix}e-dokumen.html` },
-        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: `${prefix}administrasi-guru.html` },
-        { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: `${prefix}data-statistik.html` },
-        { id: 'e-portal', label: 'e-Portal', icon: '🔗', url: `${prefix}e-portal.html` },
-        { id: 'data-master', label: 'Data Master', icon: '️', url: `${prefix}data-master.html` }
+        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: pagePrefix + 'e-dokumen.html' },
+        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: pagePrefix + 'administrasi-guru.html' },
+        { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: pagePrefix + 'data-statistik.html' },
+        { id: 'e-portal', label: 'e-Portal', icon: '🔗', url: pagePrefix + 'e-portal.html' },
+        { id: 'data-master', label: 'Data Master', icon: '🏫', url: pagePrefix + 'data-master.html' }
       );
     } else if (normalizedRole === 'staf_tu') {
       features.push(
-        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: `${prefix}e-dokumen.html` },
-        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: `${prefix}administrasi-guru.html` },
-        { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: `${prefix}data-statistik.html` },
-        { id: 'e-portal', label: 'e-Portal', icon: '', url: `${prefix}e-portal.html` },
-        { id: 'data-master', label: 'Data Master', icon: '🗂️', url: `${prefix}data-master.html` }
+        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: pagePrefix + 'e-dokumen.html' },
+        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '', url: pagePrefix + 'administrasi-guru.html' },
+        { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: pagePrefix + 'data-statistik.html' },
+        { id: 'e-portal', label: 'e-Portal', icon: '🔗', url: pagePrefix + 'e-portal.html' },
+        { id: 'data-master', label: 'Data Master', icon: '🗂️', url: pagePrefix + 'data-master.html' }
       );
     } else if (normalizedRole === 'wali_kelas' || normalizedRole === 'guru_mapel') {
       features.push(
-        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: `${prefix}administrasi-guru.html` },
-        { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: `${prefix}data-statistik.html` },
-        { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: `${prefix}e-dokumen.html` },
-        { id: 'e-portal', label: 'e-Portal', icon: '🔗', url: `${prefix}e-portal.html` }
+        { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: pagePrefix + 'administrasi-guru.html' },
+        { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: pagePrefix + 'data-statistik.html' },
+        { id: 'e-dokumen', label: 'e-Dokumen', icon: '', url: pagePrefix + 'e-dokumen.html' },
+        { id: 'e-portal', label: 'e-Portal', icon: '🔗', url: pagePrefix + 'e-portal.html' }
       );
     } else if (normalizedRole === 'siswa') {
       features.push(
-        { id: 'jadwal', label: 'Jadwal', icon: '📅', url: `${rootPrefix}dashboard.html#jadwal` },
-        { id: 'nilai', label: 'Nilai Saya', icon: '📝', url: `${rootPrefix}dashboard.html#nilai` },
-        { id: 'materi', label: 'Materi', icon: '📖', url: `${rootPrefix}dashboard.html#materi` }
+        { id: 'jadwal', label: 'Jadwal', icon: '', url: rootPrefix + 'dashboard.html#jadwal' },
+        { id: 'nilai', label: 'Nilai Saya', icon: '', url: rootPrefix + 'dashboard.html#nilai' },
+        { id: 'materi', label: 'Materi', icon: '', url: rootPrefix + 'dashboard.html#materi' }
       );
     } else if (normalizedRole === 'orang_tua') {
       features.push(
-        { id: 'monitoring', label: 'Monitoring Anak', icon: '‍👩‍👧', url: `${rootPrefix}dashboard.html#monitoring' }
+        { id: 'monitoring', label: 'Monitoring Anak', icon: '👨‍👩‍👧', url: rootPrefix + 'dashboard.html#monitoring' }
       );
     }
 
@@ -85,10 +83,10 @@ export class Sidebar {
     const features = this.getFeaturesByRole();
     let html = '';
     features.forEach(feature => {
-      html += `<a href="${feature.url}" class="sidebar-item" data-feature="${feature.id}">
-        <span class="sidebar-icon">${feature.icon}</span>
-        <span class="sidebar-label">${feature.label}</span>
-      </a>`;
+      html += '<a href="' + feature.url + '" class="sidebar-item" data-feature="' + feature.id + '">' +
+        '<span class="sidebar-icon">' + feature.icon + '</span>' +
+        '<span class="sidebar-label">' + feature.label + '</span>' +
+      '</a>';
     });
     this.sidebarContainer.innerHTML = html;
     this.highlightActiveMenu();
@@ -96,7 +94,7 @@ export class Sidebar {
 
   highlightActiveMenu() {
     const currentPage = window.location.pathname.split('/').pop();
-    const activeItem = this.sidebarContainer.querySelector(`[href*="${currentPage}"]`);
+    const activeItem = this.sidebarContainer.querySelector('[href*="' + currentPage + '"]');
     if (activeItem) activeItem.classList.add('active');
   }
 }
