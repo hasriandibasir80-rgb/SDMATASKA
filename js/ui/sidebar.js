@@ -30,7 +30,7 @@ export class Sidebar {
     // Sesuai v4.1 Bagian 2: Data Master hanya untuk Super Admin, Kepsek, Staf TU
     if (normalizedRole === 'super_admin') {
       features.push(
-        { id: 'approval', label: 'Approval User', icon: '✅', url: 'dashboard.html#approval' },
+        { id: 'approval', label: 'Approval User', icon: '✅', url: 'dashboard.html.approval' },
         { id: 'e-dokumen', label: 'e-Dokumen', icon: '📁', url: 'pages/e-dokumen.html' },
         { id: 'administrasi-guru', label: 'Administrasi Guru', icon: '📚', url: 'pages/administrasi-guru.html' },
         { id: 'data-statistik', label: 'Data Statistik', icon: '📈', url: 'pages/data-statistik.html' },
