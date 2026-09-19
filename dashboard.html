@@ -6,8 +6,8 @@
   <title>Dashboard - SDMATASKA</title>
   <link rel="stylesheet" href="css/layout/dashboard.css">
   <style>
-    .profil-container { display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    .profil-container.active { display: block; }
+    .profil-container, .approval-container { display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .profil-container.active, .approval-container.active { display: block; }
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
     .form-group { display: flex; flex-direction: column; }
     .form-group label { font-weight: 600; margin-bottom: 8px; color: #475569; font-size: 0.9rem; }
@@ -25,7 +25,6 @@
     .btn-danger:hover { background: #dc2626; }
     .password-section { margin-top: 40px; padding-top: 20px; border-top: 2px solid #e2e8f0; }
 
-    /* CSS Dropdown yang sebelumnya hilang */
     .user-dropdown { position: relative; margin-left: 15px; }
     .user-avatar-btn { background: none; border: none; cursor: pointer; padding: 0; }
     .avatar-circle { width: 36px; height: 36px; background: #3b82f6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1rem; }
@@ -70,7 +69,7 @@
               <span class="avatar-circle" id="topbar-avatar">A</span>
             </button>
             <div class="dropdown-menu" id="user-dropdown-menu">
-              <a href="#" id="btn-profil">👤 Profil Saya</a>
+              <a href="#profil" id="btn-profil">👤 Profil Saya</a>
               <a href="#" id="btn-pengaturan">⚙️ Pengaturan</a>
               <hr>
               <a href="#" id="btn-logout" class="text-danger">🚪 Keluar</a>
@@ -81,7 +80,7 @@
 
       <div class="content-area" id="content-area">
         <div id="welcome-section" class="welcome-section">
-          <h1>Selamat datang kembali, <span id="welcome-name">User</span>! </h1>
+          <h1>Selamat datang kembali, <span id="welcome-name">User</span>! 👋</h1>
           <p id="school-badge">SDN 139 LAMANDA • Akreditasi A</p>
         </div>
 
@@ -89,44 +88,20 @@
           <p>Pilih menu di sidebar untuk memulai.</p>
         </div>
 
+        <!-- SECTION PROFIL -->
         <div id="profil-section" class="profil-container">
           <h2 style="margin-bottom: 20px; color: #1e293b;">Profil Pengguna</h2>
           <form id="profil-form">
             <div class="form-grid">
-              <div class="form-group">
-                <label>Foto Profil (URL)</label>
-                <input type="text" id="prof-foto" placeholder="https://..." readonly>
-              </div>
-              <div class="form-group">
-                <label>Nama Lengkap</label>
-                <input type="text" id="prof-nama" readonly>
-              </div>
-              <div class="form-group">
-                <label>NIP</label>
-                <input type="text" id="prof-nip" readonly>
-              </div>
-              <div class="form-group">
-                <label>Nomor HP (WhatsApp)</label>
-                <input type="text" id="prof-nohp" readonly placeholder="08xxxxxxxxxx">
-              </div>
-              <div class="form-group">
-                <label>Nama Sekolah</label>
-                <input type="text" id="prof-sekolah" readonly>
-              </div>
-              <div class="form-group">
-                <label>NPSN</label>
-                <input type="text" id="prof-npsn" readonly>
-              </div>
-              <div class="form-group">
-                <label>Nama Kepala Sekolah</label>
-                <input type="text" id="prof-kepsek" readonly>
-              </div>
-              <div class="form-group">
-                <label>NIP Kepala Sekolah</label>
-                <input type="text" id="prof-nipkepsek" readonly>
-              </div>
+              <div class="form-group"><label>Foto Profil (URL)</label><input type="text" id="prof-foto" placeholder="https://..." readonly></div>
+              <div class="form-group"><label>Nama Lengkap</label><input type="text" id="prof-nama" readonly></div>
+              <div class="form-group"><label>NIP</label><input type="text" id="prof-nip" readonly></div>
+              <div class="form-group"><label>Nomor HP (WhatsApp)</label><input type="text" id="prof-nohp" readonly placeholder="08xxxxxxxxxx"></div>
+              <div class="form-group"><label>Nama Sekolah</label><input type="text" id="prof-sekolah" readonly></div>
+              <div class="form-group"><label>NPSN</label><input type="text" id="prof-npsn" readonly></div>
+              <div class="form-group"><label>Nama Kepala Sekolah</label><input type="text" id="prof-kepsek" readonly></div>
+              <div class="form-group"><label>NIP Kepala Sekolah</label><input type="text" id="prof-nipkepsek" readonly></div>
             </div>
-            
             <div class="btn-group">
               <button type="button" id="btn-edit-profil" class="btn btn-primary">✏️ Edit Profil</button>
               <button type="button" id="btn-simpan-profil" class="btn btn-success">💾 Simpan Perubahan</button>
@@ -134,33 +109,26 @@
               <button type="button" id="btn-kembali-dashboard" class="btn btn-secondary">⬅️ Kembali ke Dashboard</button>
             </div>
           </form>
-
           <div class="password-section">
             <h3 style="margin-bottom: 15px; color: #1e293b;">Ganti Password</h3>
             <div class="form-grid">
-              <div class="form-group">
-                <label>Password Lama</label>
-                <input type="password" id="pwd-lama">
-              </div>
-              <div class="form-group">
-                <label>Password Baru</label>
-                <input type="password" id="pwd-baru">
-              </div>
-              <div class="form-group">
-                <label>Konfirmasi Password Baru</label>
-                <input type="password" id="pwd-konfirmasi">
-              </div>
+              <div class="form-group"><label>Password Lama</label><input type="password" id="pwd-lama"></div>
+              <div class="form-group"><label>Password Baru</label><input type="password" id="pwd-baru"></div>
+              <div class="form-group"><label>Konfirmasi Password Baru</label><input type="password" id="pwd-konfirmasi"></div>
             </div>
             <div class="btn-group">
               <button type="button" id="btn-kirim-otp" class="btn btn-primary">📱 Kirim OTP ke WhatsApp</button>
               <div class="form-group" id="otp-input-group" style="display: none; max-width: 200px;">
-                <label>Kode OTP</label>
-                <input type="text" id="pwd-otp" placeholder="6 digit">
+                <label>Kode OTP</label><input type="text" id="pwd-otp" placeholder="6 digit">
               </div>
               <button type="button" id="btn-ganti-password" class="btn btn-danger" style="display: none;">🔒 Ganti Password</button>
             </div>
           </div>
         </div>
+
+        <!-- SECTION APPROVAL (Wadah untuk ApprovalManager yang sudah Anda miliki) -->
+        <div id="approval-container" class="approval-container"></div>
+
       </div>
     </main>
   </div>
@@ -168,6 +136,7 @@
   <script type="module">
     import { Sidebar } from './js/ui/sidebar.js';
     import { ProfileManager } from './js/auth/profile-manager.js';
+    import { ApprovalManager } from './js/admin/approval-manager.js'; // <-- IMPOR FILE YANG SUDAH BERFUNGSI
     
     new Sidebar();
     const profileManager = new ProfileManager();
@@ -205,25 +174,42 @@
       document.getElementById('sidebar').classList.toggle('active');
     });
 
-    document.getElementById('btn-profil')?.addEventListener('click', async (e) => {
-      e.preventDefault();
-      document.getElementById('welcome-section').style.display = 'none';
-      document.getElementById('dynamic-content').style.display = 'none';
-      document.getElementById('profil-section').classList.add('active');
-      await profileManager.loadProfileToForm();
-    });
-
     document.getElementById('btn-pengaturan')?.addEventListener('click', (e) => {
       e.preventDefault();
       alert('Fitur Pengaturan Umum akan ditambahkan pada Tahap 8 (Polishing).');
     });
 
-    document.getElementById('btn-kembali-dashboard')?.addEventListener('click', () => {
+    // LOGIKA HASH ROUTING (Agar sinkron dengan link sidebar #approval dan #profil)
+    function handleHash() {
+      const hash = window.location.hash;
+      
+      // Sembunyikan semua section terlebih dahulu
+      document.getElementById('welcome-section').style.display = 'none';
+      document.getElementById('dynamic-content').style.display = 'none';
       document.getElementById('profil-section').classList.remove('active');
-      document.getElementById('welcome-section').style.display = 'block';
-      document.getElementById('dynamic-content').style.display = 'block';
+      document.getElementById('approval-container').classList.remove('active');
+
+      if (hash === '#profil') {
+        document.getElementById('profil-section').classList.add('active');
+        profileManager.loadProfileToForm();
+      } else if (hash === '#approval') {
+        document.getElementById('approval-container').classList.add('active');
+        // Panggil ApprovalManager yang sudah Anda miliki dan berfungsi
+        window.approvalManager = new ApprovalManager('approval-container');
+      } else {
+        document.getElementById('welcome-section').style.display = 'block';
+        document.getElementById('dynamic-content').style.display = 'block';
+      }
+    }
+
+    window.addEventListener('hashchange', handleHash);
+    window.addEventListener('DOMContentLoaded', handleHash);
+
+    document.getElementById('btn-kembali-dashboard')?.addEventListener('click', () => {
+      window.location.hash = ''; // Ini akan memicu hashchange dan kembali ke tampilan default
     });
 
+    // --- LOGIKA PROFIL (DIPERTAHANKAN UTUH SESUAI ATURAN #2) ---
     document.getElementById('btn-edit-profil')?.addEventListener('click', () => {
       document.getElementById('prof-nama').readOnly = false;
       document.getElementById('prof-nip').readOnly = false;
