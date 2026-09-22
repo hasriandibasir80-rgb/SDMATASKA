@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const nipKepsek = document.getElementById('regNipKepsek').value.trim();
       const jabatan = document.getElementById('regJabatan').value;
       const password = document.getElementById('regPassword').value;
+      const noHp = document.getElementById('regNoHp').value.trim(); // BARIS BARU
 
       if (loading) loading.classList.add('active');
 
@@ -40,7 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
           email: email,
           role: jabatan, // Simpan role di root untuk pengecekan cepat
           school_id: npsn, // Simpan school_id untuk routing
-          nama: nama
+          nama: nama,
+          no_hp: noHp // BARIS BARU
         });
 
         // 3. Simpan Data Lengkap di Nested Collection
@@ -54,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
           nama_kepsek: namaKepsek,
           nip_kepsek: nipKepsek,
           jabatan: jabatan,
+          no_hp: noHp, // BARIS BARU
           approval_status: 'pending',
           tanggal_daftar: new Date().toISOString()
         });
