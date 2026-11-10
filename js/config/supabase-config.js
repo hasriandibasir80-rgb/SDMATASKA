@@ -5,7 +5,7 @@ const SUPABASE_URL =
 'https://jhckaiqltghuzuklragu.supabase.co';
 
 const SUPABASE_KEY =
-'PASTE_PUBLISHABLE_KEY_ANDA';
+'sb_publishable_DG6-r8_uyN1uInYPjO4jgA__32za120';
 
 export const supabase =
 createClient(
