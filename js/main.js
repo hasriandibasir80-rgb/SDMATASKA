@@ -4,13 +4,22 @@ import { EventHandlers } from './ui/event-handlers.js';
 import { AuthService } from './auth/auth-service.js';
 import { AppConfig } from './config/app-config.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+import { SupabaseService }
+from './services/supabase-service.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+
   new Sidebar();
   new ModalManager();
   new EventHandlers();
   new AuthService();
-  
+
   console.log(`${AppConfig.SCHOOL_NAME} - Sistem Manajemen Sekolah`);
   console.log(`Version: ${AppConfig.VERSION}`);
-  console.log('Ready for Firebase integration');
+
+  const guru =
+      await SupabaseService.getGuru();
+
+  console.log('Data Guru Supabase:', guru);
+
 });
